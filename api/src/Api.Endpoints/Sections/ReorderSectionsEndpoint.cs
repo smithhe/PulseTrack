@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
 using PulseTrack.Application.Features.Sections.Commands;
+using PulseTrack.Shared.Requests.Sections;
 
 namespace PulseTrack.Api.Endpoints.Sections
 {
-    public record ReorderSectionsRequest(IReadOnlyList<Guid> OrderedSectionIds);
-
     public class ReorderSectionsEndpoint : Endpoint<ReorderSectionsRequest>
     {
         private readonly IMediator _mediator;

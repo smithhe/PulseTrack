@@ -6,11 +6,10 @@ using FastEndpoints;
 using MediatR;
 using PulseTrack.Application.Features.Sections.Commands;
 using PulseTrack.Domain.Entities;
+using PulseTrack.Shared.Requests.Sections;
 
 namespace PulseTrack.Api.Endpoints.Sections
 {
-    public record CreateSectionRequest(string Name, int SortOrder);
-
     public class CreateSectionEndpoint : Endpoint<CreateSectionRequest>
     {
         private readonly IMediator _mediator;

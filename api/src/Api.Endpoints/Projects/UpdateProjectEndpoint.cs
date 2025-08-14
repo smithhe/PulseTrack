@@ -6,11 +6,10 @@ using FastEndpoints;
 using MediatR;
 using PulseTrack.Application.Features.Projects.Commands;
 using PulseTrack.Domain.Entities;
+using PulseTrack.Shared.Requests.Projects;
 
 namespace PulseTrack.Api.Endpoints.Projects
 {
-    public record UpdateProjectRequest(string Name, string? Color, string? Icon, bool IsInbox);
-
     public class UpdateProjectEndpoint : Endpoint<UpdateProjectRequest>
     {
         private readonly IMediator _mediator;

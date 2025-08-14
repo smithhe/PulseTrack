@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\PulseTrack.Domain.csproj" />
     <ProjectReference Include="..\Infrastructure.Persistence\PulseTrack.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\Shared\PulseTrack.Shared.csproj" />
   </ItemGroup>
 
 </Project>

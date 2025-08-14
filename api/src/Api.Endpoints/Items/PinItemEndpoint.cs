@@ -12,7 +12,11 @@ namespace PulseTrack.Api.Endpoints.Items
     public class PinItemEndpoint : EndpointWithoutRequest
     {
         private readonly IMediator _mediator;
-        public PinItemEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public PinItemEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {

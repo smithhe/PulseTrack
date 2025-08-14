@@ -13,7 +13,10 @@ namespace PulseTrack.Application.Features.Items.Handlers
     {
         private readonly IItemRepository _repository;
 
-        public CompleteItemHandler(IItemRepository repository) { _repository = repository; }
+        public CompleteItemHandler(IItemRepository repository)
+        {
+            _repository = repository;
+        }
 
         public async Task<Item?> Handle(CompleteItemCommand request, CancellationToken cancellationToken)
         {

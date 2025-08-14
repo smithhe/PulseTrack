@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
 using PulseTrack.Application.Features.Items.Commands;
+using PulseTrack.Shared.Requests.Items;
 
 namespace PulseTrack.Api.Endpoints.Items
 {
-    public record CreateItemRequest(Guid ProjectId, Guid? SectionId, string Content, string? DescriptionMd, int Priority, bool Pinned);
-
     public class CreateItemEndpoint : Endpoint<CreateItemRequest>
     {
         private readonly IMediator _mediator;

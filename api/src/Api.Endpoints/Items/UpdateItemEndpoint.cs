@@ -6,15 +6,18 @@ using FastEndpoints;
 using MediatR;
 using PulseTrack.Application.Features.Items.Commands;
 using PulseTrack.Domain.Entities;
+using PulseTrack.Shared.Requests.Items;
 
 namespace PulseTrack.Api.Endpoints.Items
 {
-    public record UpdateItemRequest(Guid ProjectId, Guid? SectionId, string Content, string? DescriptionMd, int Priority, bool Pinned);
-
     public class UpdateItemEndpoint : Endpoint<UpdateItemRequest>
     {
         private readonly IMediator _mediator;
-        public UpdateItemEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public UpdateItemEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
