@@ -12,12 +12,9 @@ namespace PulseTrack.Application.Features.Items.Handlers
     {
         private readonly IItemRepository _repository;
 
-        public CreateItemHandler(IItemRepository repository)
-        {
-            this._repository = repository;
-        }
+        public CreateItemHandler(IItemRepository repository) { _repository = repository; }
 
-        public async Task<Item> Handle(CreateItemCommand request, CancellationToken cancellationToken)
+        public Task<Item> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
             DateTimeOffset now = DateTimeOffset.UtcNow;
             Item item = new Item
@@ -33,8 +30,7 @@ namespace PulseTrack.Application.Features.Items.Handlers
                 UpdatedAt = now,
                 Completed = false
             };
-
-            return await this._repository.AddAsync(item, cancellationToken);
+            return _repository.AddAsync(item, cancellationToken);
         }
     }
 }

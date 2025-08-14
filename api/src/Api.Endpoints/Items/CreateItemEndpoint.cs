@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
 using PulseTrack.Application.Features.Items.Commands;
-using PulseTrack.Domain.Entities;
 
 namespace PulseTrack.Api.Endpoints.Items
 {
@@ -29,7 +28,7 @@ namespace PulseTrack.Api.Endpoints.Items
 
         public override async Task HandleAsync(CreateItemRequest req, CancellationToken ct)
         {
-            Item item = await _mediator.Send(new CreateItemCommand(req.ProjectId, req.SectionId, req.Content, req.DescriptionMd, req.Priority, req.Pinned), ct);
+            var item = await _mediator.Send(new CreateItemCommand(req.ProjectId, req.SectionId, req.Content, req.DescriptionMd, req.Priority, req.Pinned), ct);
             HttpContext.Response.ContentType = "application/json";
             await JsonSerializer.SerializeAsync(HttpContext.Response.Body, item, cancellationToken: ct);
         }
