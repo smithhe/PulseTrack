@@ -1,0 +1,80 @@
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# JetBrains (Rider, IntelliJ)
+.idea/
+*.iml
+.junie/
+out/
+
+# VS Code
+.vscode/
+.history/
+
+# Node / Frontend
+node_modules/
+.dist/
+dist/
+build/
+.out/
+.next/
+.nuxt/
+.cache/
+.npm/
+.pnpm-store/
+.yarn/
+.pnp.*
+.eslintcache
+.nyc_output/
+coverage/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+.env.local
+.env.*.local
+
+# .NET / C#
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+.vs/
+TestResults/
+*.VisualState.xml
+*.vsp
+*.vspx
+*.coverage*
+
+# EF Core
+# (Keep Migrations tracked) – do not ignore the Migrations folder
+
+# Tooling
+.ReSharper*/
+*_ReSharper*/
+*.DotSettings.user
+
+# Docker
+**/.dockerignore
+**/.env.docker.local
+
+# Misc
+*.orig
+*.rej
+
