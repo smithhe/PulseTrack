@@ -35,16 +35,29 @@ namespace PulseTrack.Api.Endpoints.Items
                 return;
             }
 
-            Item? updated = await _mediator.Send(new UpdateItemCommand(id, req.ProjectId, req.SectionId, req.Content, req.DescriptionMd, req.Priority, req.Pinned), ct);
+            Item? updated = await _mediator.Send(
+                new UpdateItemCommand(
+                    id,
+                    req.ProjectId,
+                    req.SectionId,
+                    req.Content,
+                    req.DescriptionMd,
+                    req.Priority,
+                    req.Pinned
+                ),
+                ct
+            );
             if (updated is null)
             {
                 HttpContext.Response.StatusCode = 404;
                 return;
             }
             HttpContext.Response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(HttpContext.Response.Body, updated, cancellationToken: ct);
+            await JsonSerializer.SerializeAsync(
+                HttpContext.Response.Body,
+                updated,
+                cancellationToken: ct
+            );
         }
     }
 }
-
-

@@ -17,9 +17,9 @@ namespace PulseTrack.Domain.Entities
         public DateTimeOffset? CompletedAt { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
-        public List<SubItem> SubItems { get; set; } = new();
-        public List<ItemLabel> ItemLabels { get; set; } = new();
+        public List<SubItem> SubItems { get; set; } = new List<SubItem>();
+        public List<ItemLabel> ItemLabels { get; set; } = new List<ItemLabel>();
         public DueDate? DueDate { get; set; }
-        public List<Reminder> Reminders { get; set; } = new();
+        public List<Reminder> Reminders { get; set; } = new List<Reminder>();
     }
 }

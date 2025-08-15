@@ -10,14 +10,22 @@ namespace PulseTrack.Application.Features.Sections.Handlers
     {
         private readonly ISectionRepository _repository;
 
-        public ReorderSectionsHandler(ISectionRepository repository) { _repository = repository; }
-
-        public async Task<Unit> Handle(ReorderSectionsCommand request, CancellationToken cancellationToken)
+        public ReorderSectionsHandler(ISectionRepository repository)
         {
-            await _repository.ReorderAsync(request.ProjectId, request.OrderedSectionIds, cancellationToken);
+            _repository = repository;
+        }
+
+        public async Task<Unit> Handle(
+            ReorderSectionsCommand request,
+            CancellationToken cancellationToken
+        )
+        {
+            await _repository.ReorderAsync(
+                request.ProjectId,
+                request.OrderedSectionIds,
+                cancellationToken
+            );
             return Unit.Value;
         }
     }
 }
-
-

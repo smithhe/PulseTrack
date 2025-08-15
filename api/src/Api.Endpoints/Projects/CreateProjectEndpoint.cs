@@ -1,10 +1,11 @@
-using FastEndpoints;
-using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using FastEndpoints;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Projects.Commands;
+using PulseTrack.Domain.Entities;
 using PulseTrack.Shared.Requests.Projects;
 
 namespace PulseTrack.Api.Endpoints.Projects
@@ -13,7 +14,10 @@ namespace PulseTrack.Api.Endpoints.Projects
     {
         private readonly IMediator _mediator;
 
-        public CreateProjectEndpoint(IMediator mediator) { _mediator = mediator; }
+        public CreateProjectEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
@@ -24,12 +28,17 @@ namespace PulseTrack.Api.Endpoints.Projects
 
         public override async Task HandleAsync(CreateProjectRequest req, CancellationToken ct)
         {
-            var project = await _mediator.Send(new CreateProjectCommand(req.Name, req.Color, req.Icon, req.IsInbox), ct);
+            Project project = await _mediator.Send(
+                new CreateProjectCommand(req.Name, req.Color, req.Icon, req.IsInbox),
+                ct
+            );
 
             HttpContext.Response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(HttpContext.Response.Body, project, cancellationToken: ct);
+            await JsonSerializer.SerializeAsync(
+                HttpContext.Response.Body,
+                project,
+                cancellationToken: ct
+            );
         }
     }
 }
-
-

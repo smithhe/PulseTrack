@@ -1,20 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="FastEndpoints" Version="7.0.1" />
     <PackageReference Include="FastEndpoints.Swagger" Version="7.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Domain\PulseTrack.Domain.csproj" />
     <ProjectReference Include="..\Infrastructure.Persistence\PulseTrack.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\Shared\PulseTrack.Shared.csproj" />
   </ItemGroup>
-
 </Project>

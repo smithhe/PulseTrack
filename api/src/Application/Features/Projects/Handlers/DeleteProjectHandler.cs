@@ -15,12 +15,13 @@ namespace PulseTrack.Application.Features.Projects.Handlers
             this._repository = repository;
         }
 
-        public async Task<Unit> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(
+            DeleteProjectCommand request,
+            CancellationToken cancellationToken
+        )
         {
             await this._repository.DeleteAsync(request.Id, cancellationToken);
             return Unit.Value;
         }
     }
 }
-
-

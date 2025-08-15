@@ -13,7 +13,11 @@ namespace PulseTrack.Api.Endpoints.Sections
     public class UpdateSectionEndpoint : Endpoint<UpdateSectionRequest>
     {
         private readonly IMediator _mediator;
-        public UpdateSectionEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public UpdateSectionEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
@@ -31,16 +35,21 @@ namespace PulseTrack.Api.Endpoints.Sections
                 return;
             }
 
-            Section? updated = await _mediator.Send(new UpdateSectionCommand(id, req.Name, req.SortOrder), ct);
+            Section? updated = await _mediator.Send(
+                new UpdateSectionCommand(id, req.Name, req.SortOrder),
+                ct
+            );
             if (updated is null)
             {
                 HttpContext.Response.StatusCode = 404;
                 return;
             }
             HttpContext.Response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(HttpContext.Response.Body, updated, cancellationToken: ct);
+            await JsonSerializer.SerializeAsync(
+                HttpContext.Response.Body,
+                updated,
+                cancellationToken: ct
+            );
         }
     }
 }
-
-

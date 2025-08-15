@@ -10,7 +10,11 @@ namespace PulseTrack.Api.Endpoints.Sections
     public class DeleteSectionEndpoint : EndpointWithoutRequest
     {
         private readonly IMediator _mediator;
-        public DeleteSectionEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public DeleteSectionEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
@@ -33,5 +37,3 @@ namespace PulseTrack.Api.Endpoints.Sections
         }
     }
 }
-
-

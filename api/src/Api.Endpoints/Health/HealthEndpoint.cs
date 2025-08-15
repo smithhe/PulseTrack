@@ -22,5 +22,3 @@ namespace PulseTrack.Api.Endpoints.Health
         }
     }
 }
-
-

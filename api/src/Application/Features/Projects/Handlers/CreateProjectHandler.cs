@@ -17,7 +17,10 @@ namespace PulseTrack.Application.Features.Projects.Handlers
             this._repository = repository;
         }
 
-        public async Task<Project> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
+        public async Task<Project> Handle(
+            CreateProjectCommand request,
+            CancellationToken cancellationToken
+        )
         {
             DateTimeOffset now = DateTimeOffset.UtcNow;
             Project project = new Project
@@ -29,12 +32,10 @@ namespace PulseTrack.Application.Features.Projects.Handlers
                 IsInbox = request.IsInbox,
                 SortOrder = 0,
                 CreatedAt = now,
-                UpdatedAt = now
+                UpdatedAt = now,
             };
 
             return await this._repository.AddAsync(project, cancellationToken);
         }
     }
 }
-
-

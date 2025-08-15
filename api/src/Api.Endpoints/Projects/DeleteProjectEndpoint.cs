@@ -10,7 +10,11 @@ namespace PulseTrack.Api.Endpoints.Projects
     public class DeleteProjectEndpoint : EndpointWithoutRequest
     {
         private readonly IMediator _mediator;
-        public DeleteProjectEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public DeleteProjectEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
@@ -33,5 +37,3 @@ namespace PulseTrack.Api.Endpoints.Projects
         }
     }
 }
-
-

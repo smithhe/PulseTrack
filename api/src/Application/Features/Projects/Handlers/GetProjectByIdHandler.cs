@@ -16,11 +16,12 @@ namespace PulseTrack.Application.Features.Projects.Handlers
             this._repository = repository;
         }
 
-        public Task<Project?> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
+        public Task<Project?> Handle(
+            GetProjectByIdQuery request,
+            CancellationToken cancellationToken
+        )
         {
             return this._repository.GetByIdAsync(request.Id, cancellationToken);
         }
     }
 }
-
-

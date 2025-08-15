@@ -1,17 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UserSecretsId>dotnet-PulseTrack.BackgroundJobs.Worker-e4834382-9bc0-427d-807a-89863eccd24e</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.21" />
     <PackageReference Include="Hangfire.Core" Version="1.8.21" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Application\PulseTrack.Application.csproj" />
     <ProjectReference Include="..\Infrastructure\PulseTrack.Infrastructure.csproj" />

@@ -17,11 +17,12 @@ namespace PulseTrack.Application.Features.Projects.Handlers
             this._repository = repository;
         }
 
-        public Task<IReadOnlyList<Project>> Handle(ListProjectsQuery request, CancellationToken cancellationToken)
+        public Task<IReadOnlyList<Project>> Handle(
+            ListProjectsQuery request,
+            CancellationToken cancellationToken
+        )
         {
             return this._repository.ListAsync(cancellationToken);
         }
     }
 }
-
-

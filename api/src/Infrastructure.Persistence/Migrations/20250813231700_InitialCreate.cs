@@ -20,12 +20,16 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     ChangeType = table.Column<string>(type: "text", nullable: false),
                     BeforeJson = table.Column<string>(type: "text", nullable: true),
                     AfterJson = table.Column<string>(type: "text", nullable: true),
-                    ChangedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    ChangedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ItemHistories", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Items",
@@ -40,14 +44,24 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     Pinned = table.Column<bool>(type: "boolean", nullable: false),
                     Priority = table.Column<int>(type: "integer", nullable: false),
                     Completed = table.Column<bool>(type: "boolean", nullable: false),
-                    CompletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    CompletedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: true
+                    ),
+                    CreatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
+                    UpdatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Labels",
@@ -56,13 +70,20 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Color = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
+                    UpdatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Labels", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Projects",
@@ -75,13 +96,20 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     Icon = table.Column<string>(type: "text", nullable: true),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
                     IsInbox = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
+                    UpdatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "SearchIndex",
@@ -89,11 +117,10 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                 {
                     EntityType = table.Column<string>(type: "text", nullable: false),
                     EntityId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ContentTsvector = table.Column<string>(type: "text", nullable: true)
+                    ContentTsvector = table.Column<string>(type: "text", nullable: true),
                 },
-                constraints: table =>
-                {
-                });
+                constraints: table => { }
+            );
 
             migrationBuilder.CreateTable(
                 name: "SourceAccounts",
@@ -102,28 +129,44 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CredentialsJson = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
-                    LastSyncAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    LastSyncAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: true
+                    ),
+                    CreatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
+                    UpdatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SourceAccounts", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "DueDates",
                 columns: table => new
                 {
                     ItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateUtc = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                     Timezone = table.Column<string>(type: "text", nullable: false),
                     IsRecurring = table.Column<bool>(type: "boolean", nullable: false),
                     RecurrenceType = table.Column<string>(type: "text", nullable: true),
                     RecurrenceInterval = table.Column<int>(type: "integer", nullable: true),
                     RecurrenceCount = table.Column<int>(type: "integer", nullable: true),
-                    RecurrenceEndUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    RecurrenceWeeks = table.Column<int>(type: "integer", nullable: true)
+                    RecurrenceEndUtc = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: true
+                    ),
+                    RecurrenceWeeks = table.Column<int>(type: "integer", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -133,15 +176,17 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "ItemLabels",
                 columns: table => new
                 {
                     ItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LabelId = table.Column<Guid>(type: "uuid", nullable: false)
+                    LabelId = table.Column<Guid>(type: "uuid", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -151,8 +196,10 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Reminders",
@@ -160,9 +207,12 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RemindAtUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    RemindAtUtc = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                     Timezone = table.Column<string>(type: "text", nullable: false),
-                    MetaJson = table.Column<string>(type: "text", nullable: true)
+                    MetaJson = table.Column<string>(type: "text", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -172,8 +222,10 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "SubItems",
@@ -184,7 +236,7 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     Content = table.Column<string>(type: "text", nullable: false),
                     Completed = table.Column<bool>(type: "boolean", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    ItemId = table.Column<Guid>(type: "uuid", nullable: true)
+                    ItemId = table.Column<Guid>(type: "uuid", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -193,8 +245,10 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                         name: "FK_SubItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Sections",
@@ -204,8 +258,14 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     SortOrder = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
+                    UpdatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
@@ -215,60 +275,54 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reminders_ItemId",
                 table: "Reminders",
-                column: "ItemId");
+                column: "ItemId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sections_ProjectId",
                 table: "Sections",
-                column: "ProjectId");
+                column: "ProjectId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubItems_ItemId",
                 table: "SubItems",
-                column: "ItemId");
+                column: "ItemId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "DueDates");
+            migrationBuilder.DropTable(name: "DueDates");
 
-            migrationBuilder.DropTable(
-                name: "ItemHistories");
+            migrationBuilder.DropTable(name: "ItemHistories");
 
-            migrationBuilder.DropTable(
-                name: "ItemLabels");
+            migrationBuilder.DropTable(name: "ItemLabels");
 
-            migrationBuilder.DropTable(
-                name: "Labels");
+            migrationBuilder.DropTable(name: "Labels");
 
-            migrationBuilder.DropTable(
-                name: "Reminders");
+            migrationBuilder.DropTable(name: "Reminders");
 
-            migrationBuilder.DropTable(
-                name: "SearchIndex");
+            migrationBuilder.DropTable(name: "SearchIndex");
 
-            migrationBuilder.DropTable(
-                name: "Sections");
+            migrationBuilder.DropTable(name: "Sections");
 
-            migrationBuilder.DropTable(
-                name: "SourceAccounts");
+            migrationBuilder.DropTable(name: "SourceAccounts");
 
-            migrationBuilder.DropTable(
-                name: "SubItems");
+            migrationBuilder.DropTable(name: "SubItems");
 
-            migrationBuilder.DropTable(
-                name: "Projects");
+            migrationBuilder.DropTable(name: "Projects");
 
-            migrationBuilder.DropTable(
-                name: "Items");
+            migrationBuilder.DropTable(name: "Items");
         }
     }
 }

@@ -13,7 +13,11 @@ namespace PulseTrack.Api.Endpoints.Sections
     public class CreateSectionEndpoint : Endpoint<CreateSectionRequest>
     {
         private readonly IMediator _mediator;
-        public CreateSectionEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public CreateSectionEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
@@ -31,11 +35,16 @@ namespace PulseTrack.Api.Endpoints.Sections
                 return;
             }
 
-            Section section = await _mediator.Send(new CreateSectionCommand(projectId, req.Name, req.SortOrder), ct);
+            Section section = await _mediator.Send(
+                new CreateSectionCommand(projectId, req.Name, req.SortOrder),
+                ct
+            );
             HttpContext.Response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(HttpContext.Response.Body, section, cancellationToken: ct);
+            await JsonSerializer.SerializeAsync(
+                HttpContext.Response.Body,
+                section,
+                cancellationToken: ct
+            );
         }
     }
 }
-
-

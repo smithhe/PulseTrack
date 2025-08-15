@@ -5,5 +5,3 @@ namespace PulseTrack.Application.Features.Projects.Commands
 {
     public record DeleteProjectCommand(Guid Id) : IRequest<Unit>;
 }
-
-

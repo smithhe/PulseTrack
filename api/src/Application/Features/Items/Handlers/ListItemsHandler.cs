@@ -12,9 +12,15 @@ namespace PulseTrack.Application.Features.Items.Handlers
     {
         private readonly IItemRepository _repository;
 
-        public ListItemsHandler(IItemRepository repository) { _repository = repository; }
+        public ListItemsHandler(IItemRepository repository)
+        {
+            _repository = repository;
+        }
 
-        public Task<IReadOnlyList<Item>> Handle(ListItemsQuery request, CancellationToken cancellationToken)
+        public Task<IReadOnlyList<Item>> Handle(
+            ListItemsQuery request,
+            CancellationToken cancellationToken
+        )
         {
             return _repository.ListAsync(request.ProjectId, cancellationToken);
         }

@@ -15,5 +15,3 @@ namespace PulseTrack.Application.Abstractions
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }
-
-

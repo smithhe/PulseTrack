@@ -6,5 +6,3 @@ namespace PulseTrack.Application.Features.Projects.Queries
 {
     public record GetProjectByIdQuery(Guid Id) : IRequest<Project?>;
 }
-
-

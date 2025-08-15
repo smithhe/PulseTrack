@@ -12,7 +12,10 @@ namespace PulseTrack.Application.Features.Items.Handlers
     {
         private readonly IItemRepository _repository;
 
-        public CreateItemHandler(IItemRepository repository) { _repository = repository; }
+        public CreateItemHandler(IItemRepository repository)
+        {
+            _repository = repository;
+        }
 
         public Task<Item> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
@@ -28,11 +31,10 @@ namespace PulseTrack.Application.Features.Items.Handlers
                 Pinned = request.Pinned,
                 CreatedAt = now,
                 UpdatedAt = now,
-                Completed = false
+                Completed = false,
             };
+
             return _repository.AddAsync(item, cancellationToken);
         }
     }
 }
-
-

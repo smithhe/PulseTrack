@@ -7,5 +7,3 @@ namespace PulseTrack.Application.Features.Sections.Queries
 {
     public record ListSectionsByProjectQuery(Guid ProjectId) : IRequest<IReadOnlyList<Section>>;
 }
-
-

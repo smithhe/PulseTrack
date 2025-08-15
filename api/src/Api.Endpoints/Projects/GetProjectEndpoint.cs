@@ -12,7 +12,11 @@ namespace PulseTrack.Api.Endpoints.Projects
     public class GetProjectEndpoint : EndpointWithoutRequest
     {
         private readonly IMediator _mediator;
-        public GetProjectEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public GetProjectEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
@@ -38,9 +42,11 @@ namespace PulseTrack.Api.Endpoints.Projects
             }
 
             HttpContext.Response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(HttpContext.Response.Body, project, cancellationToken: ct);
+            await JsonSerializer.SerializeAsync(
+                HttpContext.Response.Body,
+                project,
+                cancellationToken: ct
+            );
         }
     }
 }
-
-

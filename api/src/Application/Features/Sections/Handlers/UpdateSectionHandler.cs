@@ -12,12 +12,22 @@ namespace PulseTrack.Application.Features.Sections.Handlers
     {
         private readonly ISectionRepository _repository;
 
-        public UpdateSectionHandler(ISectionRepository repository) { _repository = repository; }
+        public UpdateSectionHandler(ISectionRepository repository)
+        {
+            _repository = repository;
+        }
 
-        public async Task<Section?> Handle(UpdateSectionCommand request, CancellationToken cancellationToken)
+        public async Task<Section?> Handle(
+            UpdateSectionCommand request,
+            CancellationToken cancellationToken
+        )
         {
             Section? existing = await _repository.GetByIdAsync(request.Id, cancellationToken);
-            if (existing is null) return null;
+            if (existing is null)
+            {
+                return null;
+            }
+
             existing.Name = request.Name;
             existing.SortOrder = request.SortOrder;
             existing.UpdatedAt = DateTimeOffset.UtcNow;
@@ -26,5 +36,3 @@ namespace PulseTrack.Application.Features.Sections.Handlers
         }
     }
 }
-
-

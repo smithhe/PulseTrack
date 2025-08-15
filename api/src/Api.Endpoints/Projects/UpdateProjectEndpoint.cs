@@ -13,7 +13,11 @@ namespace PulseTrack.Api.Endpoints.Projects
     public class UpdateProjectEndpoint : Endpoint<UpdateProjectRequest>
     {
         private readonly IMediator _mediator;
-        public UpdateProjectEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public UpdateProjectEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
@@ -31,7 +35,10 @@ namespace PulseTrack.Api.Endpoints.Projects
                 return;
             }
 
-            Project? updated = await _mediator.Send(new UpdateProjectCommand(id, req.Name, req.Color, req.Icon, req.IsInbox), ct);
+            Project? updated = await _mediator.Send(
+                new UpdateProjectCommand(id, req.Name, req.Color, req.Icon, req.IsInbox),
+                ct
+            );
             if (updated is null)
             {
                 HttpContext.Response.StatusCode = 404;
@@ -39,9 +46,11 @@ namespace PulseTrack.Api.Endpoints.Projects
             }
 
             HttpContext.Response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(HttpContext.Response.Body, updated, cancellationToken: ct);
+            await JsonSerializer.SerializeAsync(
+                HttpContext.Response.Body,
+                updated,
+                cancellationToken: ct
+            );
         }
     }
 }
-
-

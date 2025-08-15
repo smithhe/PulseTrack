@@ -6,7 +6,9 @@ namespace PulseTrack.Infrastructure.Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistenceInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddPersistenceInfrastructure(
+            this IServiceCollection services
+        )
         {
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
@@ -15,5 +17,3 @@ namespace PulseTrack.Infrastructure.Persistence
         }
     }
 }
-
-

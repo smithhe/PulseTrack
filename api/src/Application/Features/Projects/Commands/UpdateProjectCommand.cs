@@ -4,7 +4,11 @@ using PulseTrack.Domain.Entities;
 
 namespace PulseTrack.Application.Features.Projects.Commands
 {
-    public record UpdateProjectCommand(Guid Id, string Name, string? Color, string? Icon, bool IsInbox) : IRequest<Project?>;
+    public record UpdateProjectCommand(
+        Guid Id,
+        string Name,
+        string? Color,
+        string? Icon,
+        bool IsInbox
+    ) : IRequest<Project?>;
 }
-
-

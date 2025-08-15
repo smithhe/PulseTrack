@@ -3,7 +3,6 @@ using PulseTrack.Domain.Entities;
 
 namespace PulseTrack.Application.Features.Projects.Commands
 {
-    public record CreateProjectCommand(string Name, string? Color, string? Icon, bool IsInbox) : IRequest<Project>;
+    public record CreateProjectCommand(string Name, string? Color, string? Icon, bool IsInbox)
+        : IRequest<Project>;
 }
-
-

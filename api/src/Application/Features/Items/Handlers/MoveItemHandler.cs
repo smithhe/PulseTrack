@@ -12,19 +12,29 @@ namespace PulseTrack.Application.Features.Items.Handlers
     {
         private readonly IItemRepository _repository;
 
-        public MoveItemHandler(IItemRepository repository) { _repository = repository; }
+        public MoveItemHandler(IItemRepository repository)
+        {
+            _repository = repository;
+        }
 
-        public async Task<Item?> Handle(MoveItemCommand request, CancellationToken cancellationToken)
+        public async Task<Item?> Handle(
+            MoveItemCommand request,
+            CancellationToken cancellationToken
+        )
         {
             Item? existing = await _repository.GetByIdAsync(request.Id, cancellationToken);
-            if (existing is null) return null;
+
+            if (existing is null)
+            {
+                return null;
+            }
+
             existing.ProjectId = request.ProjectId;
             existing.SectionId = request.SectionId;
             existing.UpdatedAt = DateTimeOffset.UtcNow;
+
             await _repository.UpdateAsync(existing, cancellationToken);
             return existing;
         }
     }
 }
-
-

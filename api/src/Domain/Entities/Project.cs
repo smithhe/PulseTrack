@@ -14,6 +14,6 @@ namespace PulseTrack.Domain.Entities
         public bool IsInbox { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
-        public List<Section> Sections { get; set; } = new();
+        public List<Section> Sections { get; set; } = new List<Section>();
     }
 }

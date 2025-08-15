@@ -1,14 +1,14 @@
-using Microsoft.AspNetCore.Builder;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PulseTrack.Infrastructure.Persistence;
-using PulseTrack.Infrastructure.Persistence;
-using MediatR;
 using PulseTrack.Application.Common;
+using PulseTrack.Infrastructure.Persistence;
+using PulseTrack.Infrastructure.Persistence;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -16,10 +16,10 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // EF Core Postgres
-string connectionString = builder.Configuration.GetConnectionString("Default")
-                          ?? "Host=pulsetracker-postgres;Port=5432;Database=pulsetrack;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
+string connectionString =
+    builder.Configuration.GetConnectionString("Default")
+    ?? "Host=pulsetracker-postgres;Port=5432;Database=pulsetrack;Username=postgres;Password=postgres";
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
 // Health checks
 builder.Services.AddHealthChecks().AddNpgSql(connectionString);

@@ -10,14 +10,18 @@ namespace PulseTrack.Application.Features.Sections.Handlers
     {
         private readonly ISectionRepository _repository;
 
-        public DeleteSectionHandler(ISectionRepository repository) { _repository = repository; }
+        public DeleteSectionHandler(ISectionRepository repository)
+        {
+            _repository = repository;
+        }
 
-        public async Task<Unit> Handle(DeleteSectionCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(
+            DeleteSectionCommand request,
+            CancellationToken cancellationToken
+        )
         {
             await _repository.DeleteAsync(request.Id, cancellationToken);
             return Unit.Value;
         }
     }
 }
-
-

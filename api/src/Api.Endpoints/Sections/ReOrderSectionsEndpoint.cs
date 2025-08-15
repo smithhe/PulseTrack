@@ -10,10 +10,14 @@ using PulseTrack.Shared.Requests.Sections;
 
 namespace PulseTrack.Api.Endpoints.Sections
 {
-    public class ReorderSectionsEndpoint : Endpoint<ReorderSectionsRequest>
+    public class ReOrderSectionsEndpoint : Endpoint<ReorderSectionsRequest>
     {
         private readonly IMediator _mediator;
-        public ReorderSectionsEndpoint(IMediator mediator) { _mediator = mediator; }
+
+        public ReOrderSectionsEndpoint(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public override void Configure()
         {
@@ -33,9 +37,11 @@ namespace PulseTrack.Api.Endpoints.Sections
 
             await _mediator.Send(new ReorderSectionsCommand(projectId, req.OrderedSectionIds), ct);
             HttpContext.Response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(HttpContext.Response.Body, new { ok = true }, cancellationToken: ct);
+            await JsonSerializer.SerializeAsync(
+                HttpContext.Response.Body,
+                new { ok = true },
+                cancellationToken: ct
+            );
         }
     }
 }
-
-

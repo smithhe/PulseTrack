@@ -12,9 +12,15 @@ namespace PulseTrack.Application.Features.Sections.Handlers
     {
         private readonly ISectionRepository _repository;
 
-        public CreateSectionHandler(ISectionRepository repository) { _repository = repository; }
+        public CreateSectionHandler(ISectionRepository repository)
+        {
+            _repository = repository;
+        }
 
-        public Task<Section> Handle(CreateSectionCommand request, CancellationToken cancellationToken)
+        public Task<Section> Handle(
+            CreateSectionCommand request,
+            CancellationToken cancellationToken
+        )
         {
             DateTimeOffset now = DateTimeOffset.UtcNow;
             Section section = new Section
@@ -24,11 +30,10 @@ namespace PulseTrack.Application.Features.Sections.Handlers
                 Name = request.Name,
                 SortOrder = request.SortOrder,
                 CreatedAt = now,
-                UpdatedAt = now
+                UpdatedAt = now,
             };
+
             return _repository.AddAsync(section, cancellationToken);
         }
     }
 }
-
-
