@@ -14,6 +14,7 @@ namespace PulseTrack.Infrastructure.Persistence
             services.AddScoped<ILabelRepository, LabelRepository>();
             services.AddScoped<IDueDateRepository, DueDateRepository>();
             services.AddScoped<IReminderRepository, ReminderRepository>();
+            services.AddScoped<IItemHistoryRepository, ItemHistoryRepository>();
         }
     }
 }
