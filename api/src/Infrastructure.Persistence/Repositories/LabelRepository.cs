@@ -21,11 +21,11 @@ namespace PulseTrack.Infrastructure.Persistence.Repositories
 
         public Task<IReadOnlyList<Label>> ListAsync(CancellationToken cancellationToken)
         {
-            return _dbContext
-                .Labels.AsNoTracking()
+            return this
+                ._dbContext.Labels.AsNoTracking()
                 .OrderBy(l => l.Name)
-                .ToListAsync(cancellationToken)!
-                .ContinueWith(t => (IReadOnlyList<Label>)t.Result!, cancellationToken);
+                .ToListAsync(cancellationToken)
+                .ContinueWith(t => (IReadOnlyList<Label>)t.Result, cancellationToken);
         }
 
         public async Task<Label> AddAsync(Label label, CancellationToken cancellationToken)

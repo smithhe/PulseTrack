@@ -24,12 +24,12 @@ namespace PulseTrack.Infrastructure.Persistence.Repositories
             CancellationToken cancellationToken
         )
         {
-            return _dbContext
-                .Sections.AsNoTracking()
+            return this
+                ._dbContext.Sections.AsNoTracking()
                 .Where(s => s.ProjectId == projectId)
                 .OrderBy(s => s.SortOrder)
-                .ToListAsync(cancellationToken)!
-                .ContinueWith(t => (IReadOnlyList<Section>)t.Result!, cancellationToken);
+                .ToListAsync(cancellationToken)
+                .ContinueWith(t => (IReadOnlyList<Section>)t.Result, cancellationToken);
         }
 
         public async Task<Section> AddAsync(Section section, CancellationToken cancellationToken)
@@ -89,6 +89,7 @@ namespace PulseTrack.Infrastructure.Persistence.Repositories
 
             await using IDbContextTransaction transaction =
                 await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+
             try
             {
                 _dbContext.Sections.Remove(entity);
@@ -108,20 +109,35 @@ namespace PulseTrack.Infrastructure.Persistence.Repositories
             CancellationToken cancellationToken
         )
         {
-            List<Section> sections = await _dbContext
-                .Sections.Where(s => s.ProjectId == projectId)
-                .ToListAsync(cancellationToken);
-            Dictionary<Guid, int> orderMap = orderedSectionIds
-                .Select((id, idx) => new { id, idx })
-                .ToDictionary(x => x.id, x => x.idx);
-            foreach (Section s in sections)
+            await using IDbContextTransaction transaction =
+                await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+            try
             {
-                if (orderMap.TryGetValue(s.Id, out int idx))
+                List<Section> sections = await _dbContext
+                    .Sections.Where(s => s.ProjectId == projectId)
+                    .ToListAsync(cancellationToken);
+
+                Dictionary<Guid, int> orderMap = orderedSectionIds
+                    .Select((id, idx) => new { id, idx })
+                    .ToDictionary(x => x.id, x => x.idx);
+
+                foreach (Section s in sections)
                 {
-                    s.SortOrder = idx;
+                    if (orderMap.TryGetValue(s.Id, out int idx))
+                    {
+                        s.SortOrder = idx;
+                    }
                 }
+
+                await _dbContext.SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
             }
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            catch
+            {
+                await transaction.RollbackAsync(cancellationToken);
+                throw;
+            }
         }
     }
 }
