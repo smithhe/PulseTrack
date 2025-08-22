@@ -3,17 +3,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using PulseTrack.Application.Features.Projects.Commands;
+using PulseTrack.Application.Features.Views.Commands;
 using PulseTrack.Domain.Entities;
-using PulseTrack.Shared.Requests.Projects;
+using PulseTrack.Shared.Requests.Views;
 
-namespace PulseTrack.Api.Endpoints.Projects
+namespace PulseTrack.Api.Endpoints.Views
 {
-    public class CreateProjectEndpoint : Endpoint<CreateProjectRequest>
+    public class CreateViewEndpoint : Endpoint<CreateViewRequest>
     {
         private readonly IMediator _mediator;
 
-        public CreateProjectEndpoint(IMediator mediator)
+        public CreateViewEndpoint(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -21,21 +21,18 @@ namespace PulseTrack.Api.Endpoints.Projects
         public override void Configure()
         {
             Verbs(Http.POST);
-            Routes("/projects");
+            Routes("/views");
             AllowAnonymous();
         }
 
-        public override async Task HandleAsync(CreateProjectRequest req, CancellationToken ct)
+        public override async Task HandleAsync(CreateViewRequest req, CancellationToken ct)
         {
-            Project project = await _mediator.Send(
-                new CreateProjectCommand(req.Name, req.Color, req.Icon, req.IsInbox),
-                ct
-            );
+            View view = await _mediator.Send(new CreateViewCommand(req), ct);
 
             HttpContext.Response.ContentType = "application/json";
             await JsonSerializer.SerializeAsync(
                 HttpContext.Response.Body,
-                project,
+                view,
                 cancellationToken: ct
             );
         }

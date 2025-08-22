@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\PulseTrack.Domain.csproj" />
+    <ProjectReference Include="..\Shared\PulseTrack.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="13.0.0" />

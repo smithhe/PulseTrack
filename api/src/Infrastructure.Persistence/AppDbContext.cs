@@ -18,6 +18,8 @@ namespace PulseTrack.Infrastructure.Persistence
         public DbSet<DueDate> DueDates => Set<DueDate>();
         public DbSet<Reminder> Reminders => Set<Reminder>();
         public DbSet<ItemHistory> ItemHistories => Set<ItemHistory>();
+        public DbSet<View> Views => Set<View>();
+        public DbSet<ViewFilter> ViewFilters => Set<ViewFilter>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

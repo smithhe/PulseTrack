@@ -1,13 +1,11 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PulseTrack.Application.Common;
-using PulseTrack.Infrastructure.Persistence;
 using PulseTrack.Infrastructure.Persistence;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -16,9 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // EF Core Postgres
-string connectionString =
-    builder.Configuration.GetConnectionString("Default")
-    ?? "Host=pulsetracker-postgres;Port=5432;Database=pulsetrack;Username=postgres;Password=postgres";
+string connectionString = builder.Configuration.GetConnectionString("Default")!;
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
 // Health checks
@@ -43,7 +39,9 @@ app.MapHealthChecks("/health");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
 app.UseFastEndpoints(c => c.Endpoints.RoutePrefix = "api/v1");
+
 app.UseSwaggerGen();
 app.MapControllers();
 
