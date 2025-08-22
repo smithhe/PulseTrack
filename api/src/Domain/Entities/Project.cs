@@ -15,11 +15,6 @@ namespace PulseTrack.Domain.Entities
         public Guid Id { get; set; }
 
         /// <summary>
-        /// The ID of the source account this project belongs to (optional for single-tenant scenarios).
-        /// </summary>
-        public Guid? SourceAccountId { get; set; }
-
-        /// <summary>
         /// The display name of the project.
         /// </summary>
         public string Name { get; set; } = string.Empty;

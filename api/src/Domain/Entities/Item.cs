@@ -25,11 +25,6 @@ namespace PulseTrack.Domain.Entities
         public Guid? SectionId { get; set; }
 
         /// <summary>
-        /// The ID of the source account this item belongs to (optional for single-tenant scenarios).
-        /// </summary>
-        public Guid? SourceAccountId { get; set; }
-
-        /// <summary>
         /// The main content or title of the item.
         /// </summary>
         public string Content { get; set; } = string.Empty;

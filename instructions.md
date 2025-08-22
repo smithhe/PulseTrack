@@ -21,7 +21,7 @@
   - Create/import/restore backups; import overview
   - Migration from Planner database
 - **Preferences and system integration**
-  - Preferences pages: Accounts, Backup, Sidebar; What's New
+  - Preferences pages: Backup, Sidebar; What's New
   - Notifications service; time monitor; desktop search provider integration
 
 ## Fullstack blueprint (Electron-ready Node.js frontend + .NET API backend)
@@ -31,12 +31,12 @@
 - **Backend**: ASP.NET Core 8 Web API (C#) + EF Core + PostgreSQL.
 - **Background jobs**: Hangfire (in-process or separate worker).
 - **Search**: PostgreSQL full-text (optionally replaceable by Meilisearch/Elasticsearch later).
-- **Scope**: Single-tenant (no users/auth). All data is app-local. External provider credentials are entered in the Accounts page and stored securely.
+- **Scope**: Single-tenant (no users/auth). All data is app-local. No external service integrations or account syncing.
 
 ### Architecture
 - Two apps in a monorepo: `frontend/` (Node.js app) and `api/` (.NET API).
 - API is system of record; frontend communicates via REST/JSON and optionally SSE/WebSockets for live updates.
-- Background workers handle sync, reminders, calendar event materialization, and search indexing.
+- Background workers handle reminders, calendar event materialization, and search indexing.
 
 - Backend follows Clean Architecture and is split into separate class library projects with strict dependencies:
   - `Api` (ASP.NET Core Web API host using FastEndpoints) → depends on `Application`
@@ -59,10 +59,9 @@
   - `Api/tests/*` (unit/integration test projects per layer)
 
 ### Data model (single-tenant: omit user tables and user_id columns)
-- **SourceAccount**(id, credentials_json, status, last_sync_at, created_at, updated_at)
-- **Project**(id, source_account_id, name, color, icon, sort_order, is_inbox, created_at, updated_at)
+- **Project**(id, name, color, icon, sort_order, is_inbox, created_at, updated_at)
 - **Section**(id, project_id, name, sort_order, created_at, updated_at)
-- **Item**(id, project_id, section_id, source_account_id, content, description_md, pinned, priority, completed, completed_at, created_at, updated_at)
+- **Item**(id, project_id, section_id, content, description_md, pinned, priority, completed, completed_at, created_at, updated_at)
 - **SubItem**(id, parent_item_id, content, completed, sort_order)
 - **Label**(id, name, color, created_at, updated_at)
 - **ItemLabel**(item_id, label_id)
@@ -100,9 +99,6 @@
 - **Search and quick find**
   - GET `/search?q=` unified results: filters, projects, sections, items, labels
   - POST `/quick-add` `{ text }` → `{ item draft + parsed due/reminders }`
-- **Sources/Sync**
-  - GET/POST `/sources`; PUT/DELETE `/sources/{id}`
-  - POST `/sync/{sourceId}/start`; GET `/sync/{sourceId}/status`
 - **Backups/Migration**
   - POST `/backups/create`; GET `/backups`
   - POST `/backups/import` (upload); POST `/backups/{id}/restore`
@@ -130,7 +126,6 @@
   - DateTimePicker, RepeatConfig, ReminderPicker, LabelPicker, Project/Section pickers
   - Calendar (week/month); QuickFind modal; QuickAdd bar/modal
 - **Integrations**
-  - Accounts page for provider credentials; connect/disconnect and on-demand sync
   - Desktop notifications; later switch to Electron notifications
 - **Accessibility/i18n**
   - ARIA-friendly UI; `react-intl` or `next-intl` alternative for Vite; localized strings
@@ -144,7 +139,6 @@
 - Restore with confirmation; record import/restore actions in an audit/history table
 
 ### Security and data handling (no auth in scope)
-- Encrypt provider credentials at rest (e.g., DPAPI/ASP.NET Data Protection or libsodium)
 - Rate limiting
 - Validation and sanitization of Markdown
 

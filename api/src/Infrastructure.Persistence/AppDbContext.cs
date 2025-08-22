@@ -8,7 +8,6 @@ namespace PulseTrack.Infrastructure.Persistence
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
 
-        public DbSet<SourceAccount> SourceAccounts => Set<SourceAccount>();
         public DbSet<Project> Projects => Set<Project>();
         public DbSet<Section> Sections => Set<Section>();
         public DbSet<Item> Items => Set<Item>();
