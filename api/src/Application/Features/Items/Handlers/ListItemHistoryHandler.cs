@@ -27,5 +27,3 @@ namespace PulseTrack.Application.Features.Items.Handlers
         }
     }
 }
-
-

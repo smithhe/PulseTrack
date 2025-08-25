@@ -7,5 +7,3 @@ namespace PulseTrack.Application.Features.Items.Queries
 {
     public record ListItemHistoryQuery(Guid ItemId) : IRequest<IReadOnlyList<ItemHistory>>;
 }
-
-

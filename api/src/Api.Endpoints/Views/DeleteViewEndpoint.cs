@@ -1,21 +1,33 @@
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Views.Commands;
 
 namespace PulseTrack.Api.Endpoints.Views
 {
+    /// <summary>
+    /// Endpoint for deleting views
+    /// </summary>
     public class DeleteViewEndpoint : EndpointWithoutRequest
     {
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Creates a new instance of the DeleteViewEndpoint
+        /// </summary>
+        /// <param name="mediator">MediatR mediator for handling requests</param>
         public DeleteViewEndpoint(IMediator mediator)
         {
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Configures the endpoint with DELETE method, route with ID parameter, and anonymous access
+        /// </summary>
         public override void Configure()
         {
             Verbs(Http.DELETE);
@@ -23,12 +35,28 @@ namespace PulseTrack.Api.Endpoints.Views
             AllowAnonymous();
         }
 
+        /// <summary>
+        /// Handles the request to delete a view by ID
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
         public override async Task HandleAsync(CancellationToken ct)
         {
-            Guid id = Route<Guid>("id");
-
-            await _mediator.Send(new DeleteViewCommand(id), ct);
-            HttpContext.Response.StatusCode = 204;
+            try
+            {
+                Guid id = Route<Guid>("id");
+                await _mediator.Send(new DeleteViewCommand(id), ct);
+                HttpContext.Response.StatusCode = StatusCodes.Status204NoContent;
+            }
+            catch (Exception ex)
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                HttpContext.Response.ContentType = "application/json";
+                await JsonSerializer.SerializeAsync(
+                    HttpContext.Response.Body,
+                    new { error = "Failed to delete view", details = ex.Message },
+                    cancellationToken: ct
+                );
+            }
         }
     }
 }

@@ -24,8 +24,14 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     SortBy = table.Column<string>(type: "text", nullable: true),
                     IsDefault = table.Column<bool>(type: "boolean", nullable: false),
                     IsShared = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
+                    UpdatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
@@ -34,8 +40,10 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                         name: "FK_Views_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "Id");
-                });
+                        principalColumn: "Id"
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "ViewFilters",
@@ -45,7 +53,7 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                     ViewId = table.Column<Guid>(type: "uuid", nullable: false),
                     Field = table.Column<string>(type: "text", nullable: false),
                     Operator = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: false)
+                    Value = table.Column<string>(type: "text", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -55,28 +63,30 @@ namespace PulseTrack.Infrastructure.Persistence.Migrations
                         column: x => x.ViewId,
                         principalTable: "Views",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_ViewFilters_ViewId",
                 table: "ViewFilters",
-                column: "ViewId");
+                column: "ViewId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Views_ProjectId",
                 table: "Views",
-                column: "ProjectId");
+                column: "ProjectId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ViewFilters");
+            migrationBuilder.DropTable(name: "ViewFilters");
 
-            migrationBuilder.DropTable(
-                name: "Views");
+            migrationBuilder.DropTable(name: "Views");
         }
     }
 }

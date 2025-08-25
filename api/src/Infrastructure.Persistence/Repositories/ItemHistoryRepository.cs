@@ -32,5 +32,3 @@ namespace PulseTrack.Infrastructure.Persistence.Repositories
         }
     }
 }
-
-

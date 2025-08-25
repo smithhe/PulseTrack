@@ -16,10 +16,7 @@ namespace PulseTrack.Application.Features.Views.Handlers
             _repository = repository;
         }
 
-        public Task<View?> Handle(
-            GetViewByIdQuery request,
-            CancellationToken cancellationToken
-        )
+        public Task<View?> Handle(GetViewByIdQuery request, CancellationToken cancellationToken)
         {
             return _repository.GetByIdAsync(request.Id, cancellationToken);
         }

@@ -15,10 +15,7 @@ namespace PulseTrack.Application.Features.Views.Handlers
             _repository = repository;
         }
 
-        public async Task Handle(
-            DeleteViewCommand request,
-            CancellationToken cancellationToken
-        )
+        public async Task Handle(DeleteViewCommand request, CancellationToken cancellationToken)
         {
             await _repository.DeleteAsync(request.Id, cancellationToken);
         }

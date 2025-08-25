@@ -8,8 +8,9 @@ namespace PulseTrack.Application.Abstractions
 {
     public interface IItemHistoryRepository
     {
-        Task<IReadOnlyList<ItemHistory>> ListByItemAsync(Guid itemId, CancellationToken cancellationToken);
+        Task<IReadOnlyList<ItemHistory>> ListByItemAsync(
+            Guid itemId,
+            CancellationToken cancellationToken
+        );
     }
 }
-
-

@@ -5,20 +5,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Views.Queries;
 using PulseTrack.Domain.Entities;
 
 namespace PulseTrack.Api.Endpoints.Views
 {
+    /// <summary>
+    /// Endpoint for retrieving all views, optionally filtered by project
+    /// </summary>
     public class ListViewsEndpoint : EndpointWithoutRequest
     {
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Creates a new instance of the ListViewsEndpoint
+        /// </summary>
+        /// <param name="mediator">MediatR mediator for handling requests</param>
         public ListViewsEndpoint(IMediator mediator)
         {
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Configures the endpoint with GET method, route, and anonymous access
+        /// </summary>
         public override void Configure()
         {
             Verbs(Http.GET);
@@ -26,22 +37,39 @@ namespace PulseTrack.Api.Endpoints.Views
             AllowAnonymous();
         }
 
+        /// <summary>
+        /// Handles the request to list all views, optionally filtered by project ID
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
         public override async Task HandleAsync(CancellationToken ct)
         {
-            Guid? projectId = null;
-            if (Query<Guid?>("projectId") is Guid pid)
+            try
             {
-                projectId = pid;
+                Guid? projectId = null;
+                if (Query<Guid?>("projectId") is Guid pid)
+                {
+                    projectId = pid;
+                }
+
+                IReadOnlyList<View> views = await _mediator.Send(new ListViewsQuery(projectId), ct);
+
+                HttpContext.Response.ContentType = "application/json";
+                await JsonSerializer.SerializeAsync(
+                    HttpContext.Response.Body,
+                    views,
+                    cancellationToken: ct
+                );
             }
-
-            IReadOnlyList<View> views = await _mediator.Send(new ListViewsQuery(projectId), ct);
-
-            HttpContext.Response.ContentType = "application/json";
-            await JsonSerializer.SerializeAsync(
-                HttpContext.Response.Body,
-                views,
-                cancellationToken: ct
-            );
+            catch (Exception ex)
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                HttpContext.Response.ContentType = "application/json";
+                await JsonSerializer.SerializeAsync(
+                    HttpContext.Response.Body,
+                    new { error = "Failed to retrieve views", details = ex.Message },
+                    cancellationToken: ct
+                );
+            }
         }
     }
 }
