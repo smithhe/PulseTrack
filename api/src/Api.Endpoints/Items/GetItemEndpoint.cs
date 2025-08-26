@@ -1,10 +1,9 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Items.Queries;
 using PulseTrack.Domain.Entities;
 
@@ -47,12 +46,10 @@ namespace PulseTrack.Api.Endpoints.Items
                 string? idStr = HttpContext.Request.RouteValues["id"]?.ToString();
                 if (!Guid.TryParse(idStr, out Guid id))
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
+                    await Send.ResponseAsync(
                         new { error = "Invalid item ID format" },
-                        cancellationToken: ct
+                        (int)HttpStatusCode.BadRequest,
+                        ct
                     );
                     return;
                 }
@@ -60,31 +57,22 @@ namespace PulseTrack.Api.Endpoints.Items
                 Item? item = await _mediator.Send(new GetItemByIdQuery(id), ct);
                 if (item is null)
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
+                    await Send.ResponseAsync(
                         new { error = "Item not found" },
-                        cancellationToken: ct
+                        (int)HttpStatusCode.NotFound,
+                        ct
                     );
                     return;
                 }
 
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    item,
-                    cancellationToken: ct
-                );
+                await Send.OkAsync(item, ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to retrieve item", details = ex.Message },
-                    cancellationToken: ct
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
                 );
             }
         }

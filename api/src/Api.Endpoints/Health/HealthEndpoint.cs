@@ -1,9 +1,8 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
-using Microsoft.AspNetCore.Http;
 
 namespace PulseTrack.Api.Endpoints.Health
 {
@@ -35,21 +34,14 @@ namespace PulseTrack.Api.Endpoints.Health
         {
             try
             {
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new HealthResponse("ok"),
-                    cancellationToken: ct
-                );
+                await Send.OkAsync(new HealthResponse("ok"), ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Health check failed", details = ex.Message },
-                    cancellationToken: ct
+                await Send.ResponseAsync(
+                    new HealthResponse("Unexpected Error Occurred"),
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
                 );
             }
         }

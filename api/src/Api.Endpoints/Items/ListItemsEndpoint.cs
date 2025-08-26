@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Items.Queries;
 using PulseTrack.Domain.Entities;
 
@@ -52,22 +51,14 @@ namespace PulseTrack.Api.Endpoints.Items
                 }
 
                 IReadOnlyList<Item> items = await _mediator.Send(new ListItemsQuery(projectId), ct);
-
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    items,
-                    cancellationToken: ct
-                );
+                await Send.OkAsync(items, ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to retrieve items", details = ex.Message },
-                    cancellationToken: ct
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
                 );
             }
         }

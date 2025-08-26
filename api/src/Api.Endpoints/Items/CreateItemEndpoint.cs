@@ -1,10 +1,9 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Items.Commands;
 using PulseTrack.Domain.Entities;
 using PulseTrack.Shared.Requests.Items;
@@ -58,22 +57,14 @@ namespace PulseTrack.Api.Endpoints.Items
                     ct
                 );
 
-                HttpContext.Response.StatusCode = StatusCodes.Status201Created;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    item,
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(item, (int)HttpStatusCode.Created, ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to create item", details = ex.Message },
-                    cancellationToken: ct
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
                 );
             }
         }

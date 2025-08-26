@@ -1,10 +1,9 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Labels.Commands;
 using PulseTrack.Shared.Requests.Items;
 
@@ -48,27 +47,23 @@ namespace PulseTrack.Api.Endpoints.Items
                 string? idStr = HttpContext.Request.RouteValues["id"]?.ToString();
                 if (!Guid.TryParse(idStr, out Guid id))
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
+                    await Send.ResponseAsync(
                         new { error = "Invalid item ID format" },
-                        cancellationToken: ct
+                        (int)HttpStatusCode.BadRequest,
+                        ct
                     );
                     return;
                 }
 
                 await _mediator.Send(new UnassignLabelCommand(id, req.LabelId), ct);
-                HttpContext.Response.StatusCode = StatusCodes.Status204NoContent;
+                await Send.NoContentAsync(ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to unassign label from item", details = ex.Message },
-                    cancellationToken: ct
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
                 );
             }
         }
