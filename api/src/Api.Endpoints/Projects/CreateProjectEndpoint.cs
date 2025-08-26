@@ -1,5 +1,5 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
@@ -51,23 +51,11 @@ namespace PulseTrack.Api.Endpoints.Projects
                     ct
                 );
 
-                HttpContext.Response.StatusCode = StatusCodes.Status201Created;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    project,
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(project, (int)HttpStatusCode.Created, ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to create project", details = ex.Message },
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
             }
         }
     }

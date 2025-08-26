@@ -1,5 +1,5 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
@@ -46,28 +46,16 @@ namespace PulseTrack.Api.Endpoints.Projects
                 string? idStr = HttpContext.Request.RouteValues["id"]?.ToString();
                 if (!Guid.TryParse(idStr, out Guid id))
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
-                        new { error = "Invalid project ID format" },
-                        cancellationToken: ct
-                    );
+                    await Send.ResponseAsync(new { error = "Invalid project ID format" }, (int)HttpStatusCode.BadRequest, ct);
                     return;
                 }
 
                 await _mediator.Send(new DeleteProjectCommand(id), ct);
-                HttpContext.Response.StatusCode = StatusCodes.Status204NoContent;
+                await Send.NoContentAsync(ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to delete project", details = ex.Message },
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
             }
         }
     }

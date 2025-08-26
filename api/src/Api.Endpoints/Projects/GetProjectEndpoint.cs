@@ -1,5 +1,5 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
@@ -47,45 +47,22 @@ namespace PulseTrack.Api.Endpoints.Projects
                 string? idStr = HttpContext.Request.RouteValues["id"]?.ToString();
                 if (!Guid.TryParse(idStr, out Guid id))
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
-                        new { error = "Invalid project ID format" },
-                        cancellationToken: ct
-                    );
+                    await Send.ResponseAsync(new { error = "Invalid project ID format" }, (int)HttpStatusCode.BadRequest, ct);
                     return;
                 }
 
                 Project? project = await _mediator.Send(new GetProjectByIdQuery(id), ct);
                 if (project is null)
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
-                        new { error = "Project not found" },
-                        cancellationToken: ct
-                    );
+                    await Send.ResponseAsync(new { error = "Project not found" }, (int)HttpStatusCode.NotFound, ct);
                     return;
                 }
 
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    project,
-                    cancellationToken: ct
-                );
+                await Send.OkAsync(project, ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to retrieve project", details = ex.Message },
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
             }
         }
     }
