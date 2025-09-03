@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Views.Queries;
 using PulseTrack.Domain.Entities;
 
@@ -46,16 +45,26 @@ namespace PulseTrack.Api.Endpoints.Views
             {
                 Guid id = Route<Guid>("id");
                 View? view = await _mediator.Send(new GetViewByIdQuery(id), ct);
+
                 if (view is null)
                 {
-                    await Send.ResponseAsync(new { error = "View not found" }, (int)HttpStatusCode.NotFound, ct);
+                    await Send.ResponseAsync(
+                        new { error = "View not found" },
+                        (int)HttpStatusCode.NotFound,
+                        ct
+                    );
                     return;
                 }
+
                 await Send.OkAsync(view, ct);
             }
             catch (Exception)
             {
-                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
+                );
             }
         }
     }

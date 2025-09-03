@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Sections.Commands;
 using PulseTrack.Domain.Entities;
 using PulseTrack.Shared.Requests.Sections;
@@ -49,7 +48,11 @@ namespace PulseTrack.Api.Endpoints.Sections
                 string? idStr = HttpContext.Request.RouteValues["id"]?.ToString();
                 if (!Guid.TryParse(idStr, out Guid id))
                 {
-                    await Send.ResponseAsync(new { error = "Invalid section ID format" }, (int)HttpStatusCode.BadRequest, ct);
+                    await Send.ResponseAsync(
+                        new { error = "Invalid section ID format" },
+                        (int)HttpStatusCode.BadRequest,
+                        ct
+                    );
                     return;
                 }
 
@@ -59,7 +62,11 @@ namespace PulseTrack.Api.Endpoints.Sections
                 );
                 if (updated is null)
                 {
-                    await Send.ResponseAsync(new { error = "Section not found" }, (int)HttpStatusCode.NotFound, ct);
+                    await Send.ResponseAsync(
+                        new { error = "Section not found" },
+                        (int)HttpStatusCode.NotFound,
+                        ct
+                    );
                     return;
                 }
 
@@ -67,7 +74,11 @@ namespace PulseTrack.Api.Endpoints.Sections
             }
             catch (Exception)
             {
-                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
+                );
             }
         }
     }

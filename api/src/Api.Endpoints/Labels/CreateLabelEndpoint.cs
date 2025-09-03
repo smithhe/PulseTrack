@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Labels.Commands;
 using PulseTrack.Domain.Entities;
 using PulseTrack.Shared.Requests.Labels;
@@ -51,7 +50,11 @@ namespace PulseTrack.Api.Endpoints.Labels
             }
             catch (Exception)
             {
-                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
+                );
             }
         }
     }

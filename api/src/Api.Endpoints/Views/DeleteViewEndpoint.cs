@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Views.Commands;
 
 namespace PulseTrack.Api.Endpoints.Views
@@ -49,7 +48,11 @@ namespace PulseTrack.Api.Endpoints.Views
             }
             catch (Exception)
             {
-                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
+                );
             }
         }
     }

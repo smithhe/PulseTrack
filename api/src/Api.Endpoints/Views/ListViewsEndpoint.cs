@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using PulseTrack.Application.Features.Views.Queries;
 using PulseTrack.Domain.Entities;
 
@@ -46,7 +45,7 @@ namespace PulseTrack.Api.Endpoints.Views
             try
             {
                 Guid? projectId = null;
-                if (Query<Guid?>("projectId") is Guid pid)
+                if (Query<Guid?>("projectId") is { } pid)
                 {
                     projectId = pid;
                 }
@@ -56,7 +55,11 @@ namespace PulseTrack.Api.Endpoints.Views
             }
             catch (Exception)
             {
-                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
+                await Send.ResponseAsync(
+                    new { error = "Unexpected Error Occurred" },
+                    (int)HttpStatusCode.InternalServerError,
+                    ct
+                );
             }
         }
     }
