@@ -1,5 +1,5 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
@@ -49,13 +49,7 @@ namespace PulseTrack.Api.Endpoints.Sections
                 string? pidStr = HttpContext.Request.RouteValues["projectId"]?.ToString();
                 if (!Guid.TryParse(pidStr, out Guid projectId))
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
-                        new { error = "Invalid project ID format" },
-                        cancellationToken: ct
-                    );
+                    await Send.ResponseAsync(new { error = "Invalid project ID format" }, (int)HttpStatusCode.BadRequest, ct);
                     return;
                 }
 
@@ -63,24 +57,11 @@ namespace PulseTrack.Api.Endpoints.Sections
                     new CreateSectionCommand(projectId, req.Name, req.SortOrder),
                     ct
                 );
-
-                HttpContext.Response.StatusCode = StatusCodes.Status201Created;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    section,
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(section, (int)HttpStatusCode.Created, ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to create section", details = ex.Message },
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
             }
         }
     }

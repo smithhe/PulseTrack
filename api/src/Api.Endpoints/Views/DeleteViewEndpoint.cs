@@ -1,5 +1,5 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
@@ -45,17 +45,11 @@ namespace PulseTrack.Api.Endpoints.Views
             {
                 Guid id = Route<Guid>("id");
                 await _mediator.Send(new DeleteViewCommand(id), ct);
-                HttpContext.Response.StatusCode = StatusCodes.Status204NoContent;
+                await Send.NoContentAsync(ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to delete view", details = ex.Message },
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
             }
         }
     }

@@ -1,5 +1,5 @@
 using System;
-using System.Text.Json;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FastEndpoints;
@@ -49,13 +49,7 @@ namespace PulseTrack.Api.Endpoints.Sections
                 string? idStr = HttpContext.Request.RouteValues["id"]?.ToString();
                 if (!Guid.TryParse(idStr, out Guid id))
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
-                        new { error = "Invalid section ID format" },
-                        cancellationToken: ct
-                    );
+                    await Send.ResponseAsync(new { error = "Invalid section ID format" }, (int)HttpStatusCode.BadRequest, ct);
                     return;
                 }
 
@@ -65,32 +59,15 @@ namespace PulseTrack.Api.Endpoints.Sections
                 );
                 if (updated is null)
                 {
-                    HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                    HttpContext.Response.ContentType = "application/json";
-                    await JsonSerializer.SerializeAsync(
-                        HttpContext.Response.Body,
-                        new { error = "Section not found" },
-                        cancellationToken: ct
-                    );
+                    await Send.ResponseAsync(new { error = "Section not found" }, (int)HttpStatusCode.NotFound, ct);
                     return;
                 }
 
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    updated,
-                    cancellationToken: ct
-                );
+                await Send.OkAsync(updated, ct);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                HttpContext.Response.ContentType = "application/json";
-                await JsonSerializer.SerializeAsync(
-                    HttpContext.Response.Body,
-                    new { error = "Failed to update section", details = ex.Message },
-                    cancellationToken: ct
-                );
+                await Send.ResponseAsync(new { error = "Unexpected Error Occurred" }, (int)HttpStatusCode.InternalServerError, ct);
             }
         }
     }
