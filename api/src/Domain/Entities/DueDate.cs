@@ -52,5 +52,20 @@ namespace PulseTrack.Domain.Entities
         /// For weekly recurrences, indicates which days of the week (bitmask or comma-separated).
         /// </summary>
         public int? RecurrenceWeeks { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            DueDate? other = obj as DueDate;
+
+            return this.ItemId == other?.ItemId
+                && this.DateUtc == other.DateUtc
+                && this.Timezone == other.Timezone
+                && this.IsRecurring == other.IsRecurring
+                && this.RecurrenceType == other.RecurrenceType
+                && this.RecurrenceInterval == other.RecurrenceInterval
+                && this.RecurrenceCount == other.RecurrenceCount
+                && this.RecurrenceEndUtc == other.RecurrenceEndUtc
+                && this.RecurrenceWeeks == other.RecurrenceWeeks;
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace PulseTrack.Infrastructure.Persistence.Repositories
                 .Where(h => h.ItemId == itemId)
                 .OrderByDescending(h => h.ChangedAt)
                 .ToListAsync(cancellationToken)!
-                .ContinueWith(t => (IReadOnlyList<ItemHistory>)t.Result!, cancellationToken);
+                .ContinueWith(t => (IReadOnlyList<ItemHistory>)t.Result, cancellationToken);
         }
     }
 }
