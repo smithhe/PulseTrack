@@ -2,9 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
 using NUnit.Framework;
 using PulseTrack.Domain.Entities;
 using PulseTrack.Infrastructure.Persistence;
@@ -198,13 +196,16 @@ namespace PulseTrack.UnitTests.Persistence.Repositories
             }
 
             // Assert no persistence occurred
-            DbContextOptions<AppDbContext> verifyOptions = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "PulseTrack")
-                .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-                .Options;
+            DbContextOptions<AppDbContext> verifyOptions =
+                new DbContextOptionsBuilder<AppDbContext>()
+                    .UseInMemoryDatabase(databaseName: "PulseTrack")
+                    .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                    .Options;
             await using (AppDbContext verify = new AppDbContext(verifyOptions))
             {
-                DueDate? fromDb = await verify.DueDates.FirstOrDefaultAsync(x => x.ItemId == itemId);
+                DueDate? fromDb = await verify.DueDates.FirstOrDefaultAsync(x =>
+                    x.ItemId == itemId
+                );
                 Assert.That(fromDb, Is.Null);
             }
         }
@@ -234,13 +235,16 @@ namespace PulseTrack.UnitTests.Persistence.Repositories
             }
 
             // Assert entity still exists (delete rolled back)
-            DbContextOptions<AppDbContext> verifyOptions = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "PulseTrack")
-                .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-                .Options;
+            DbContextOptions<AppDbContext> verifyOptions =
+                new DbContextOptionsBuilder<AppDbContext>()
+                    .UseInMemoryDatabase(databaseName: "PulseTrack")
+                    .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                    .Options;
             await using (AppDbContext verify = new AppDbContext(verifyOptions))
             {
-                DueDate? fromDb = await verify.DueDates.FirstOrDefaultAsync(x => x.ItemId == itemId);
+                DueDate? fromDb = await verify.DueDates.FirstOrDefaultAsync(x =>
+                    x.ItemId == itemId
+                );
                 Assert.That(fromDb, Is.Not.Null);
             }
         }
