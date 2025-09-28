@@ -25,6 +25,7 @@ namespace PulseTrack.Infrastructure.Persistence.Repositories
         )
         {
             IQueryable<Item> query = _dbContext.Items.AsNoTracking();
+
             if (projectId.HasValue)
             {
                 query = query.Where(i => i.ProjectId == projectId.Value);
