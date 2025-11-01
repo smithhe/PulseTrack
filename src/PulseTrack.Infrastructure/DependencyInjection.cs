@@ -2,7 +2,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using PulseTrack.Infrastructure.Data;
 
 namespace PulseTrack.Infrastructure;
@@ -38,6 +37,10 @@ public static class DependencyInjection
                 options.EnableSensitiveDataLogging();
             }
         });
+
+        services.AddScoped<DevelopmentSeeder>();
+        services.AddSingleton(new InfrastructureEnvironment(isDevelopmentEnv));
+        services.AddHostedService<DatabaseInitializerHostedService>();
 
         return services;
     }
