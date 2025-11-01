@@ -23,7 +23,7 @@ sealed class Program
 
         ConfigureConfiguration(builder);
         ConfigureSerilog(builder);
-        ConfigureServices(builder.Services, builder.Configuration);
+        ConfigureServices(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
 
         using var host = builder.Build();
         App.Initialize(host);
@@ -80,10 +80,10 @@ sealed class Program
         builder.Logging.AddSerilog(Log.Logger, dispose: false);
     }
 
-    private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureServices(IServiceCollection services, IConfiguration configuration, bool isDevelopmentEnv)
     {
         services.AddApplicationLayer();
-        services.AddInfrastructureLayer(configuration);
+        services.AddInfrastructureLayer(configuration, isDevelopmentEnv);
         services.AddPresentationLayer();
 
         services.AddSingleton<Views.MainWindow>();
