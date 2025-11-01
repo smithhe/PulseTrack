@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PulseTrack.Domain.Entities;
-using PulseTrack.Domain.Enums;
 
 namespace PulseTrack.Infrastructure.Data.Configurations;
 

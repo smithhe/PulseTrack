@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PulseTrack.Domain.Entities;
-using PulseTrack.Domain.Enums;
 
 namespace PulseTrack.Infrastructure.Data.Configurations;
 

@@ -1,3 +1,4 @@
+using System;
 using PulseTrack.Domain.Abstractions;
 
 namespace PulseTrack.Domain.Entities;
