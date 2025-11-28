@@ -59,7 +59,7 @@ public sealed class Project : AuditableEntity
             throw new ArgumentException("Feature id cannot be empty.", nameof(featureId));
         }
 
-        var feature = new Feature(featureId, Id, name, createdAtUtc);
+        Feature feature = new Feature(featureId, Id, name, createdAtUtc);
         _features.Add(feature);
         Touch(createdAtUtc);
         return feature;
@@ -73,7 +73,7 @@ public sealed class Project : AuditableEntity
     /// <returns><c>true</c> if the feature was removed; otherwise, <c>false</c>.</returns>
     public bool RemoveFeature(Guid featureId, DateTime removedAtUtc)
     {
-        var removed = _features.RemoveAll(f => f.Id == featureId) > 0;
+        bool removed = _features.RemoveAll(f => f.Id == featureId) > 0;
         if (removed)
         {
             Touch(removedAtUtc);

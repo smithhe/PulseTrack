@@ -13,13 +13,13 @@ public class ViewLocator : IDataTemplate
         if (param is null)
             return null;
 
-        var viewModelType = param.GetType();
-        var viewName = viewModelType.FullName!
+        Type viewModelType = param.GetType();
+        string viewName = viewModelType.FullName!
             .Replace("ViewModel", "View", StringComparison.Ordinal)
             .Replace("Presentation.ViewModels", "App.Views", StringComparison.Ordinal);
 
-        var viewAssembly = typeof(App).Assembly.FullName;
-        var type = Type.GetType($"{viewName}, {viewAssembly}");
+        string? viewAssembly = typeof(App).Assembly.FullName;
+        Type? type = Type.GetType($"{viewName}, {viewAssembly}");
 
         if (type is not null)
         {

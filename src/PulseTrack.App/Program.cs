@@ -19,13 +19,13 @@ sealed class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        var builder = Host.CreateApplicationBuilder(args);
+        HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
         ConfigureConfiguration(builder);
         ConfigureSerilog(builder);
         ConfigureServices(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
 
-        using var host = builder.Build();
+        using IHost host = builder.Build();
         App.Initialize(host);
 
         host.Start();
@@ -58,8 +58,8 @@ sealed class Program
 
     private static void ConfigureSerilog(HostApplicationBuilder builder)
     {
-        var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var logDirectory = Path.Combine(appData, "PulseTrack", "logs");
+        string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string logDirectory = Path.Combine(appData, "PulseTrack", "logs");
         Directory.CreateDirectory(logDirectory);
 
         Log.Logger = new LoggerConfiguration()

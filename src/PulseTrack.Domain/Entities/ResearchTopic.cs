@@ -73,7 +73,7 @@ public sealed class ResearchTopic : AuditableEntity
             linkedWorkItemId = null;
         }
 
-        var note = new ResearchNote(noteId, Id, kind, contentMarkdown, createdAtUtc, linkedWorkItemId);
+        ResearchNote note = new ResearchNote(noteId, Id, kind, contentMarkdown, createdAtUtc, linkedWorkItemId);
         _notes.Add(note);
         Touch(createdAtUtc);
         return note;
@@ -87,7 +87,7 @@ public sealed class ResearchTopic : AuditableEntity
     /// <returns><c>true</c> if the note was removed; otherwise, <c>false</c>.</returns>
     public bool RemoveNote(Guid noteId, DateTime removedAtUtc)
     {
-        var removed = _notes.RemoveAll(n => n.Id == noteId) > 0;
+        bool removed = _notes.RemoveAll(n => n.Id == noteId) > 0;
         if (removed)
         {
             Touch(removedAtUtc);

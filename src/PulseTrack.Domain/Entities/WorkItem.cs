@@ -215,7 +215,7 @@ public sealed class WorkItem : AuditableEntity
         ArgumentNullException.ThrowIfNull(tags);
 
         _tags.Clear();
-        foreach (var tag in tags)
+        foreach (string tag in tags)
         {
             AddTagInternal(tag);
         }
@@ -231,7 +231,7 @@ public sealed class WorkItem : AuditableEntity
     /// <returns><c>true</c> if the tag was added; otherwise, <c>false</c>.</returns>
     public bool AddTag(string tag, DateTime changedAtUtc)
     {
-        var added = AddTagInternal(tag);
+        bool added = AddTagInternal(tag);
         if (added)
         {
             Touch(changedAtUtc);
@@ -248,7 +248,7 @@ public sealed class WorkItem : AuditableEntity
     /// <returns><c>true</c> if the tag was removed; otherwise, <c>false</c>.</returns>
     public bool RemoveTag(string tag, DateTime changedAtUtc)
     {
-        var removed = _tags.Remove(tag);
+        bool removed = _tags.Remove(tag);
         if (removed)
         {
             Touch(changedAtUtc);
