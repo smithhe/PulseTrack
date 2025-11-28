@@ -6,7 +6,6 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\PulseTrack.Application\PulseTrack.Application.csproj"/>
         <ProjectReference Include="..\PulseTrack.Domain\PulseTrack.Domain.csproj"/>
     </ItemGroup>
 

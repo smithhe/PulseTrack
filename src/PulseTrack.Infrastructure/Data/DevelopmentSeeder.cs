@@ -28,16 +28,16 @@ internal sealed class DevelopmentSeeder
 
         _logger.LogInformation("Seeding development data...");
 
-        var now = DateTime.UtcNow;
+        DateTime now = DateTime.UtcNow;
 
-        var project = new Project(Guid.NewGuid(), "PulseTrack", "PTK", "#3B82F6", now);
-        var deliveryFeature = project.AddFeature(Guid.NewGuid(), "Delivery Workflow", now);
-        var analyticsFeature = project.AddFeature(Guid.NewGuid(), "Analytics Dashboard", now);
+        Project project = new Project(Guid.NewGuid(), "PulseTrack", "PTK", "#3B82F6", now);
+        Feature deliveryFeature = project.AddFeature(Guid.NewGuid(), "Delivery Workflow", now);
+        Feature analyticsFeature = project.AddFeature(Guid.NewGuid(), "Analytics Dashboard", now);
 
-        var lead = new TeamMember(Guid.NewGuid(), "Harold TeamLead", "Engineering Lead", "harold@example.com", now);
-        var developer = new TeamMember(Guid.NewGuid(), "Avery Dev", "Senior Developer", "avery@example.com", now);
+        TeamMember lead = new TeamMember(Guid.NewGuid(), "Harold TeamLead", "Engineering Lead", "harold@example.com", now);
+        TeamMember developer = new TeamMember(Guid.NewGuid(), "Avery Dev", "Senior Developer", "avery@example.com", now);
 
-        var backlogItem = new WorkItem(
+        WorkItem backlogItem = new WorkItem(
             Guid.NewGuid(),
             project.Id,
             "Implement core navigation shell",
@@ -50,21 +50,21 @@ internal sealed class DevelopmentSeeder
         backlogItem.AddTag("ui", now);
         backlogItem.AddTag("shell", now);
 
-        var researchTopic = new ResearchTopic(
+        ResearchTopic researchTopic = new ResearchTopic(
             Guid.NewGuid(),
             "Deployment Throughput",
             "Release cadence",
             "Improve delivery frequency without increasing regressions",
             now);
 
-        var researchNote = researchTopic.AddNote(
+        ResearchNote researchNote = researchTopic.AddNote(
             Guid.NewGuid(),
             ResearchNoteKind.Observation,
             "Over the last three sprints we averaged 1.2 releases/week due to manual verification bottlenecks.",
             now,
             backlogItem.Id);
 
-        var timeEntry = new TimeEntry(
+        TimeEntry timeEntry = new TimeEntry(
             Guid.NewGuid(),
             backlogItem.Id,
             now.AddHours(-6),
@@ -87,7 +87,7 @@ internal sealed class DevelopmentSeeder
 
     private async Task<bool> NeedsSeedingAsync(CancellationToken cancellationToken)
     {
-        var hasProjects = await _dbContext.Projects.AnyAsync(cancellationToken);
+        bool hasProjects = await _dbContext.Projects.AnyAsync(cancellationToken);
         return !hasProjects;
     }
 }

@@ -26,15 +26,15 @@ internal sealed class DatabaseInitializerHostedService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        using var scope = _serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<PulseTrackDbContext>();
+        using IServiceScope scope = _serviceProvider.CreateScope();
+        PulseTrackDbContext dbContext = scope.ServiceProvider.GetRequiredService<PulseTrackDbContext>();
 
         _logger.LogInformation("Applying database migrations...");
         await dbContext.Database.MigrateAsync(cancellationToken);
 
         if (_environment.IsDevelopment)
         {
-            var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentSeeder>();
+            DevelopmentSeeder seeder = scope.ServiceProvider.GetRequiredService<DevelopmentSeeder>();
             await seeder.SeedAsync(cancellationToken);
         }
     }

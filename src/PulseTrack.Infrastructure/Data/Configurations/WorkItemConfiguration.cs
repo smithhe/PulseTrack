@@ -67,7 +67,7 @@ internal sealed class WorkItemConfiguration : IEntityTypeConfiguration<WorkItem>
         builder.Property(item => item.RowVersion)
             .IsRowVersion();
 
-        var converter = new ValueConverter<HashSet<string>, string>(
+        ValueConverter<HashSet<string>, string> converter = new ValueConverter<HashSet<string>, string>(
             tags => JsonSerializer.Serialize(tags, JsonOptions),
             json => string.IsNullOrWhiteSpace(json)
                 ? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -106,8 +106,8 @@ internal sealed class WorkItemConfiguration : IEntityTypeConfiguration<WorkItem>
             return 0;
         }
 
-        var hash = new HashCode();
-        foreach (var tag in tags)
+        HashCode hash = new HashCode();
+        foreach (string tag in tags)
         {
             hash.Add(tag, StringComparer.OrdinalIgnoreCase);
         }
