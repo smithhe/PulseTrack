@@ -20,7 +20,7 @@ internal sealed class TeamMemberRepository : ITeamMemberRepository
         _dbContext = dbContext;
     }
 
-    public async Task AddAsync(TeamMember teamMember, CancellationToken cancellationToken)
+    public async Task<TeamMember> CreateAsync(TeamMember teamMember, CancellationToken cancellationToken)
     {
         await using IDbContextTransaction transaction =
             await _dbContext.Database.BeginTransactionAsync(cancellationToken);
@@ -36,6 +36,8 @@ internal sealed class TeamMemberRepository : ITeamMemberRepository
             await transaction.RollbackAsync(cancellationToken);
             throw;
         }
+        
+        return teamMember;
     }
 
     public Task<TeamMember?> GetAsync(Guid teamMemberId, CancellationToken cancellationToken)
@@ -66,6 +68,29 @@ internal sealed class TeamMemberRepository : ITeamMemberRepository
         try
         {
             _dbContext.TeamMembers.Update(teamMember);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+        }
+        catch
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
+    }
+
+    public async Task DeleteAsync(Guid teamMemberId, CancellationToken cancellationToken)
+    {
+        await using IDbContextTransaction transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+        try
+        {
+            TeamMember? entity = await _dbContext.TeamMembers.FirstOrDefaultAsync(teamMember => teamMember.Id == teamMemberId, cancellationToken);
+            if (entity is null)
+            {
+                return;
+            }
+
+            _dbContext.TeamMembers.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
         }

@@ -8,7 +8,7 @@ namespace PulseTrack.Infrastructure.Contracts;
 
 public interface ITeamMemberRepository
 {
-    Task AddAsync(TeamMember teamMember, CancellationToken cancellationToken);
+    Task<TeamMember> CreateAsync(TeamMember teamMember, CancellationToken cancellationToken);
 
     Task<TeamMember?> GetAsync(Guid teamMemberId, CancellationToken cancellationToken);
 
@@ -17,5 +17,7 @@ public interface ITeamMemberRepository
     Task<bool> ExistsAsync(Guid teamMemberId, CancellationToken cancellationToken);
 
     Task UpdateAsync(TeamMember teamMember, CancellationToken cancellationToken);
+    
+    Task DeleteAsync(Guid teamMemberId, CancellationToken cancellationToken);
 }
 
