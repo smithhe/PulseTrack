@@ -375,7 +375,7 @@ namespace PulseTrack.Infrastructure.Migrations
                     b.HasOne("PulseTrack.Domain.Entities.Feature", null)
                         .WithMany()
                         .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("PulseTrack.Domain.Entities.TeamMember", null)
                         .WithMany()

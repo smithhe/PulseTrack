@@ -114,7 +114,7 @@ namespace PulseTrack.Infrastructure.Migrations
                         column: x => x.FeatureId,
                         principalTable: "Features",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_WorkItems_Projects_ProjectId",
                         column: x => x.ProjectId,

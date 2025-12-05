@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Base colors -->
+    <Color x:Key="PulseTrack.Color.WindowBackground">#15161B</Color>
+    <Color x:Key="PulseTrack.Color.Sidebar">#191A1F</Color>
+    <Color x:Key="PulseTrack.Color.Surface">#1C1D23</Color>
+    <Color x:Key="PulseTrack.Color.SurfaceVariant">#1E2027</Color>
+    <Color x:Key="PulseTrack.Color.Border">#232428</Color>
+    <Color x:Key="PulseTrack.Color.Overlay">#AA10131D</Color>
+
+    <!-- Text colors -->
+    <Color x:Key="PulseTrack.Color.TextPrimary">#F5F5F8</Color>
+    <Color x:Key="PulseTrack.Color.TextSecondary">#C4C6D0</Color>
+    <Color x:Key="PulseTrack.Color.TextMuted">#8A8C92</Color>
+
+    <!-- Accents -->
+    <Color x:Key="PulseTrack.Color.Accent">#5B7CFF</Color>
+    <Color x:Key="PulseTrack.Color.AccentMuted">#2B5BFF</Color>
+    <Color x:Key="PulseTrack.Color.BadgeNeutral">#3E3F4B</Color>
+    <Color x:Key="PulseTrack.Color.BadgeWarning">#EBCB8B</Color>
+    <Color x:Key="PulseTrack.Color.BadgePositive">#34D399</Color>
+    <Color x:Key="PulseTrack.Color.TagBackground">#2B2D37</Color>
+    <Color x:Key="PulseTrack.Color.ListHover">#262830</Color>
+    <Color x:Key="PulseTrack.Color.ListSelected">#2F3140</Color>
+    <Color x:Key="PulseTrack.Color.ErrorBackground">#392125</Color>
+    <Color x:Key="PulseTrack.Color.ErrorBorder">#F87171</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="PulseTrack.Brush.WindowBackground" Color="{DynamicResource PulseTrack.Color.WindowBackground}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.SidebarBackground" Color="{DynamicResource PulseTrack.Color.Sidebar}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.Surface" Color="{DynamicResource PulseTrack.Color.Surface}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.SurfaceVariant" Color="{DynamicResource PulseTrack.Color.SurfaceVariant}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.Border" Color="{DynamicResource PulseTrack.Color.Border}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.Overlay" Color="{DynamicResource PulseTrack.Color.Overlay}" />
+
+    <SolidColorBrush x:Key="PulseTrack.Brush.TextPrimary" Color="{DynamicResource PulseTrack.Color.TextPrimary}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.TextSecondary" Color="{DynamicResource PulseTrack.Color.TextSecondary}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.TextMuted" Color="{DynamicResource PulseTrack.Color.TextMuted}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.IconMuted" Color="#C1C3CC" />
+
+    <SolidColorBrush x:Key="PulseTrack.Brush.Accent" Color="{DynamicResource PulseTrack.Color.Accent}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.AccentMuted" Color="{DynamicResource PulseTrack.Color.AccentMuted}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.BadgeNeutral" Color="{DynamicResource PulseTrack.Color.BadgeNeutral}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.BadgeWarning" Color="{DynamicResource PulseTrack.Color.BadgeWarning}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.BadgePositive" Color="{DynamicResource PulseTrack.Color.BadgePositive}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.TagBackground" Color="{DynamicResource PulseTrack.Color.TagBackground}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.ListHover" Color="{DynamicResource PulseTrack.Color.ListHover}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.ListSelected" Color="{DynamicResource PulseTrack.Color.ListSelected}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.ErrorBackground" Color="{DynamicResource PulseTrack.Color.ErrorBackground}" />
+    <SolidColorBrush x:Key="PulseTrack.Brush.ErrorBorder" Color="{DynamicResource PulseTrack.Color.ErrorBorder}" />
+
+    <!-- Spacing -->
+    <Thickness x:Key="PulseTrack.Spacing.Small">8</Thickness>
+    <Thickness x:Key="PulseTrack.Spacing.Medium">16</Thickness>
+    <Thickness x:Key="PulseTrack.Spacing.Large">24</Thickness>
+</ResourceDictionary>
+

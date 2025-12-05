@@ -3,18 +3,97 @@
         xmlns:vm="using:PulseTrack.Presentation.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
+        Width="1440"
+        Height="900"
+        MinWidth="1280"
+        MinHeight="800"
+        d:DesignWidth="1440"
+        d:DesignHeight="900"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel, IsDesignTimeCreatable=False}"
         x:Class="PulseTrack.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="PulseTrack">
+        Title="PulseTrack"
+        Background="{DynamicResource PulseTrack.Brush.WindowBackground}">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <Grid ColumnDefinitions="240,*">
+        <Border Grid.Column="0"
+                Background="{DynamicResource PulseTrack.Brush.SidebarBackground}"
+                BorderBrush="{DynamicResource PulseTrack.Brush.Border}"
+                BorderThickness="0,0,1,0">
+            <Grid RowDefinitions="Auto,*">
+                <StackPanel Margin="24 24 24 12" Spacing="4">
+                    <TextBlock Text="PulseTrack"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"
+                               Margin="0 0 0 12"/>
+                    <TextBlock Text="Navigation"
+                               FontSize="12"
+                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                </StackPanel>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ListBox Grid.Row="1"
+                         x:Name="NavigationList"
+                         ItemsSource="{Binding NavigationItems}"
+                         SelectedItem="{Binding SelectedNavigationItem, Mode=TwoWay}"
+                         HorizontalAlignment="Stretch"
+                         BorderThickness="0"
+                         Background="Transparent">
+                    <ListBox.Styles>
+                        <Style Selector="ListBox#NavigationList > ListBoxItem">
+                            <Setter Property="Padding" Value="12" />
+                            <Setter Property="Margin" Value="12 2" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="CornerRadius" Value="8" />
+                        </Style>
+                        <Style Selector="ListBox#NavigationList > ListBoxItem:pointerover">
+                                <Setter Property="Background" Value="{DynamicResource PulseTrack.Brush.ListHover}" />
+                        </Style>
+                        <Style Selector="ListBox#NavigationList > ListBoxItem:selected">
+                                <Setter Property="Background" Value="{DynamicResource PulseTrack.Brush.ListSelected}" />
+                        </Style>
+                    </ListBox.Styles>
 
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:NavigationItemViewModel">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="{Binding IconGlyph}"
+                                           FontSize="16"
+                                               Foreground="{DynamicResource PulseTrack.Brush.IconMuted}"
+                                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"/>
+                                <TextBlock Text="{Binding Title}"
+                                           Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"
+                                           FontSize="14"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1" Background="{DynamicResource PulseTrack.Brush.WindowBackground}">
+            <Grid RowDefinitions="Auto,*">
+                <Border Grid.Row="0"
+                        Background="{DynamicResource PulseTrack.Brush.WindowBackground}"
+                        Padding="24"
+                        BorderBrush="{DynamicResource PulseTrack.Brush.Border}"
+                        BorderThickness="0,0,0,1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding SelectedNavigationItem.Title, FallbackValue='Welcome'}"
+                                   FontSize="22"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1"
+                        Padding="24"
+                        Background="{DynamicResource PulseTrack.Brush.WindowBackground}">
+                    <ContentControl Content="{Binding CurrentViewModel}"/>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
 </Window>

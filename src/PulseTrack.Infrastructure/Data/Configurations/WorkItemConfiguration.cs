@@ -83,7 +83,7 @@ internal sealed class WorkItemConfiguration : IEntityTypeConfiguration<WorkItem>
         builder.HasOne<Feature>()
             .WithMany()
             .HasForeignKey(item => item.FeatureId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne<TeamMember>()
             .WithMany()
