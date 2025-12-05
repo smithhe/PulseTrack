@@ -11,15 +11,22 @@ public class ViewLocator : IDataTemplate
     public Control? Build(object? param)
     {
         if (param is null)
+        {
             return null;
+        }
 
         Type viewModelType = param.GetType();
-        string viewName = viewModelType.FullName!
-            .Replace("ViewModel", "View", StringComparison.Ordinal)
-            .Replace("Presentation.ViewModels", "App.Views", StringComparison.Ordinal);
+        string viewModelName = viewModelType.Name;
 
-        string? viewAssembly = typeof(App).Assembly.FullName;
-        Type? type = Type.GetType($"{viewName}, {viewAssembly}");
+        if (viewModelName.EndsWith("ViewModel", StringComparison.Ordinal))
+        {
+            viewModelName = viewModelName[..^9];
+        }
+
+        string viewName = $"{typeof(App).Namespace}.Views.{viewModelName}View";
+
+        Type? type = Type.GetType($"{viewName}, {typeof(App).Assembly.FullName}") ??
+                     typeof(App).Assembly.GetType(viewName);
 
         if (type is not null)
         {

@@ -17,6 +17,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
         foreach (INavigationSection section in navigationSections)
         {
+            section.ViewModelChanged += OnNavigationSectionViewModelChanged;
             _navigationItems.Add(new NavigationItemViewModel(section));
         }
 
@@ -52,6 +53,16 @@ public partial class MainWindowViewModel : ViewModelBase
         else
         {
             CurrentViewModel = null;
+        }
+    }
+
+    private void OnNavigationSectionViewModelChanged(object? sender, EventArgs e)
+    {
+        NavigationItemViewModel? selected = SelectedNavigationItem;
+
+        if (selected is not null && ReferenceEquals(selected.Section, sender))
+        {
+            CurrentViewModel = selected.Content;
         }
     }
 }

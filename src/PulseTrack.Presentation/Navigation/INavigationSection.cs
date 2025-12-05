@@ -1,3 +1,4 @@
+using System;
 using PulseTrack.Presentation.ViewModels;
 
 namespace PulseTrack.Presentation.Navigation;
@@ -31,5 +32,10 @@ public interface INavigationSection
     /// The ViewModel that should be displayed when the section is active.
     /// </summary>
     ViewModelBase ViewModel { get; }
+
+    /// <summary>
+    /// Raised when the view model instance changes so bindings can update.
+    /// </summary>
+    event EventHandler? ViewModelChanged;
 }
 

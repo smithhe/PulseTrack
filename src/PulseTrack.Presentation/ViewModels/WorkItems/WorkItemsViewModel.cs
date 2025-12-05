@@ -21,6 +21,7 @@ public sealed partial class WorkItemsViewModel : ViewModelBase
     private readonly ObservableCollection<WorkItemListItemViewModel> _items = new();
     private readonly List<WorkItemListItemViewModel> _itemsCache = new();
     private CancellationTokenSource? _refreshCancellationSource;
+    private bool _suppressSelectionNotifications;
 
     public WorkItemsViewModel(IWorkItemsDataProvider dataProvider)
     {
@@ -28,6 +29,8 @@ public sealed partial class WorkItemsViewModel : ViewModelBase
 
         WorkItems = new ReadOnlyObservableCollection<WorkItemListItemViewModel>(_items);
         RefreshCommand = new AsyncRelayCommand(RefreshAsync);
+
+        EnsureLoaded();
     }
 
     public ReadOnlyObservableCollection<WorkItemListItemViewModel> WorkItems { get; }
@@ -50,6 +53,8 @@ public sealed partial class WorkItemsViewModel : ViewModelBase
     public IAsyncRelayCommand RefreshCommand { get; }
 
     public bool HasNoVisibleItems => !HasVisibleItems;
+
+    public event EventHandler<WorkItemListItemViewModel>? WorkItemOpened;
 
     /// <summary>
     /// Loads data once when the view/model is first shown.
@@ -114,6 +119,26 @@ public sealed partial class WorkItemsViewModel : ViewModelBase
     partial void OnSearchTextChanged(string? oldValue, string? newValue)
     {
         ApplyFilters();
+    }
+
+    partial void OnSelectedWorkItemChanged(WorkItemListItemViewModel? oldValue, WorkItemListItemViewModel? newValue)
+    {
+        if (_suppressSelectionNotifications)
+        {
+            return;
+        }
+
+        if (newValue is not null)
+        {
+            WorkItemOpened?.Invoke(this, newValue);
+        }
+    }
+
+    public void ResetSelection()
+    {
+        _suppressSelectionNotifications = true;
+        SelectedWorkItem = null;
+        _suppressSelectionNotifications = false;
     }
 
     private void ApplyFilters()

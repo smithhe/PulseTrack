@@ -15,272 +15,142 @@
         <converters:NullToBoolConverter x:Key="NullToBoolConverter.Inverted" Invert="True" />
     </UserControl.Resources>
 
-    <Grid ColumnDefinitions="340,16,*">
-        <Border Grid.Column="0"
-                Background="{DynamicResource PulseTrack.Brush.Surface}"
-                CornerRadius="12"
-                Padding="20">
-            <Grid RowDefinitions="Auto,Auto,Auto,*">
-                <StackPanel Margin="0 0 0 12">
-                    <TextBlock Text="Backlog"
-                               FontSize="18"
-                               FontWeight="SemiBold"
-                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
-                    <TextBlock Text="Review and prioritize work items"
-                               FontSize="12"
-                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
-                </StackPanel>
+    <Border Background="{DynamicResource PulseTrack.Brush.Surface}"
+            CornerRadius="12"
+            Padding="20">
+        <Grid RowDefinitions="Auto,Auto,Auto,*">
+            <StackPanel Margin="0 0 0 12">
+                <TextBlock Text="Backlog"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                <TextBlock Text="Review and prioritize work items"
+                           FontSize="12"
+                           Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+            </StackPanel>
 
-                <TextBox Grid.Row="1"
-                         Height="36"
-                         Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Watermark="Search work items"
-                         CornerRadius="8"
-                         Padding="10 6"
-                         Margin="0 0 0 12"/>
+            <TextBox Grid.Row="1"
+                     Height="40"
+                     Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Watermark="Search work items"
+                     CornerRadius="8"
+                     Padding="12 8"
+                     Margin="0 0 0 12"/>
 
-                <StackPanel Grid.Row="2" Spacing="8" Margin="0 0 0 12">
-                    <Button Content="Refresh"
-                            Command="{Binding RefreshCommand}"
-                            MinWidth="90"
-                            HorizontalAlignment="Left"/>
+            <StackPanel Grid.Row="2" Spacing="8" Margin="0 0 0 12">
+                <Button Content="Refresh"
+                        Command="{Binding RefreshCommand}"
+                        MinWidth="100"
+                        HorizontalAlignment="Left"/>
 
-                    <Border x:Name="ErrorAlert"
-                            Background="{DynamicResource PulseTrack.Brush.ErrorBackground}"
-                            BorderBrush="{DynamicResource PulseTrack.Brush.ErrorBorder}"
-                            BorderThickness="1"
-                            CornerRadius="8"
-                            Padding="12"
-                            IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}">
-                        <StackPanel Orientation="Vertical" Spacing="4">
-                            <TextBlock Text="Unable to load work items"
-                                       FontWeight="SemiBold"
-                                       Foreground="{DynamicResource PulseTrack.Brush.ErrorBorder}"/>
-                            <TextBlock Text="{Binding ErrorMessage}"
-                                       Foreground="{DynamicResource PulseTrack.Brush.ErrorBorder}"
-                                       TextWrapping="Wrap"/>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
+                <Border Background="{DynamicResource PulseTrack.Brush.ErrorBackground}"
+                        BorderBrush="{DynamicResource PulseTrack.Brush.ErrorBorder}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="12"
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}">
+                    <StackPanel Orientation="Vertical" Spacing="4">
+                        <TextBlock Text="Unable to load work items"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource PulseTrack.Brush.ErrorBorder}"/>
+                        <TextBlock Text="{Binding ErrorMessage}"
+                                   Foreground="{DynamicResource PulseTrack.Brush.ErrorBorder}"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
 
-                <Grid Grid.Row="3">
-                    <ListBox ItemsSource="{Binding WorkItems}"
-                             SelectedItem="{Binding SelectedWorkItem, Mode=TwoWay}"
-                             BorderThickness="0"
-                             Background="Transparent"
-                             ScrollViewer.VerticalScrollBarVisibility="Auto">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate x:DataType="workItemsVm:WorkItemListItemViewModel">
-                                <Border Padding="12"
-                                        CornerRadius="10"
-                                        Margin="0 4"
-                                        Background="{DynamicResource PulseTrack.Brush.SurfaceVariant}">
-                                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <TextBlock Text="{Binding Title}"
-                                                       FontSize="14"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
-                                            <TextBlock Text="{Binding Key}"
-                                                       Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"
-                                                       FontSize="11"/>
-                                        </StackPanel>
-
-                                        <StackPanel Grid.Column="1"
-                                                    Orientation="Horizontal"
-                                                    HorizontalAlignment="Right"
-                                                    Spacing="6">
-                                            <Border Background="{DynamicResource PulseTrack.Brush.AccentMuted}"
-                                                    CornerRadius="6"
-                                                    Padding="8 2">
-                                                <TextBlock Text="{Binding StatusLabel}"
-                                                           FontSize="11"
-                                                           Foreground="White"/>
-                                            </Border>
-                                            <Border Background="{DynamicResource PulseTrack.Brush.BadgeNeutral}"
-                                                    CornerRadius="6"
-                                                    Padding="8 2">
-                                                <TextBlock Text="{Binding PriorityLabel}"
-                                                           FontSize="11"
-                                                           Foreground="{DynamicResource PulseTrack.Brush.BadgeWarning}"/>
-                                            </Border>
-                                        </StackPanel>
-
-                                        <TextBlock Grid.Row="1"
-                                                   Text="{Binding ProjectName}"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"
-                                                   FontSize="11"/>
-
-                                        <TextBlock Grid.Row="1"
-                                                   Grid.Column="1"
-                                                   Text="{Binding OwnerDisplayName, FallbackValue='Unassigned'}"
-                                                   HorizontalAlignment="Right"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"
-                                                   FontSize="11"/>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-                        <ListBox.Styles>
-                            <Style Selector="ListBoxItem">
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                            </Style>
-                            <Style Selector="ListBoxItem:selected Border">
-                                <Setter Property="Background" Value="{DynamicResource PulseTrack.Brush.ListSelected}"/>
-                            </Style>
-                        </ListBox.Styles>
-                    </ListBox>
-
-                    <Border x:Name="ListLoadingOverlay"
-                            Background="{DynamicResource PulseTrack.Brush.Overlay}"
-                            CornerRadius="10"
-                            IsHitTestVisible="False"
-                            IsVisible="{Binding IsLoading}">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
-                            <ProgressBar Width="160" IsIndeterminate="True"/>
-                            <TextBlock Text="Loading work items..."
-                                       Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"
-                                       HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-
-                    <TextBlock x:Name="EmptyListPlaceholder"
-                               Text="No work items match your filters."
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"
-                               IsHitTestVisible="False"
-                               IsVisible="{Binding HasNoVisibleItems}"/>
-                </Grid>
-            </Grid>
-        </Border>
-
-        <Border Grid.Column="2"
-                Background="{DynamicResource PulseTrack.Brush.Surface}"
-                CornerRadius="12"
-                Padding="24">
-            <Grid>
-                <ContentControl x:Name="WorkItemDetailsContent"
-                                Content="{Binding SelectedWorkItem}"
-                                IsVisible="{Binding SelectedWorkItem, Converter={StaticResource NullToBoolConverter}}">
-                    <ContentControl.ContentTemplate>
+            <Grid Grid.Row="3">
+                <ListBox ItemsSource="{Binding WorkItems}"
+                         SelectedItem="{Binding SelectedWorkItem, Mode=TwoWay}"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
                         <DataTemplate x:DataType="workItemsVm:WorkItemListItemViewModel">
-                            <StackPanel Spacing="16">
-                                <StackPanel Spacing="6">
+                            <Border Padding="12"
+                                    CornerRadius="10"
+                                    Margin="0 4"
+                                    Background="{DynamicResource PulseTrack.Brush.SurfaceVariant}">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
                                         <TextBlock Text="{Binding Title}"
-                                                   FontSize="20"
+                                                   FontSize="14"
                                                    FontWeight="SemiBold"
                                                    Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
                                         <TextBlock Text="{Binding Key}"
                                                    Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"
-                                                   FontSize="12"/>
+                                                   FontSize="11"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <Border Background="{DynamicResource PulseTrack.Brush.AccentMuted}" CornerRadius="6" Padding="10 2">
-                                            <TextBlock Text="{Binding StatusLabel}" FontSize="11" Foreground="White"/>
+
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Right"
+                                                Spacing="6">
+                                        <Border Background="{DynamicResource PulseTrack.Brush.AccentMuted}"
+                                                CornerRadius="6"
+                                                Padding="8 2">
+                                            <TextBlock Text="{Binding StatusLabel}"
+                                                       FontSize="11"
+                                                       Foreground="White"/>
                                         </Border>
                                         <Border Background="{DynamicResource PulseTrack.Brush.BadgeNeutral}"
                                                 CornerRadius="6"
-                                                Padding="10 2">
+                                                Padding="8 2">
                                             <TextBlock Text="{Binding PriorityLabel}"
                                                        FontSize="11"
                                                        Foreground="{DynamicResource PulseTrack.Brush.BadgeWarning}"/>
                                         </Border>
-                                        <Border Background="{DynamicResource PulseTrack.Brush.SurfaceVariant}"
-                                                CornerRadius="6"
-                                                Padding="10 2">
-                                            <TextBlock Text="{Binding ProjectName}"
-                                                       FontSize="11"
-                                                       Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"/>
-                                        </Border>
                                     </StackPanel>
-                                </StackPanel>
 
-                                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
-                                    <StackPanel>
-                                        <TextBlock Text="Owner"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
-                                        <TextBlock Text="{Binding OwnerDisplayName, FallbackValue='Unassigned'}"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" Margin="24 0 0 0">
-                                        <TextBlock Text="Feature"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
-                                        <TextBlock Text="{Binding FeatureName, FallbackValue='Not linked'}"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="1" Margin="0 12 0 0">
-                                        <TextBlock Text="Created"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
-                                        <TextBlock Text="{Binding CreatedAtUtc, StringFormat='{}{0:MMM dd, yyyy}'}"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="24 12 0 0">
-                                        <TextBlock Text="Due"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
-                                        <TextBlock Text="{Binding DueAtUtc, StringFormat='{}{0:MMM dd, yyyy}', FallbackValue='—'}"
-                                                   Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
-                                    </StackPanel>
+                                    <TextBlock Grid.Row="1"
+                                               Text="{Binding ProjectName}"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"
+                                               FontSize="11"/>
+
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="1"
+                                               Text="{Binding OwnerDisplayName, FallbackValue='Unassigned'}"
+                                               HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"
+                                               FontSize="11"/>
                                 </Grid>
-
-                                <StackPanel>
-                                    <TextBlock Text="Summary"
-                                               FontSize="11"
-                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
-                                    <TextBlock Text="{Binding Summary, FallbackValue='No description provided.'}"
-                                               TextWrapping="Wrap"
-                                               Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"/>
-                                </StackPanel>
-
-                                <ItemsControl ItemsSource="{Binding Tags}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Background="{DynamicResource PulseTrack.Brush.TagBackground}"
-                                                    CornerRadius="6"
-                                                    Padding="8 2">
-                                                <TextBlock Text="{Binding .}"
-                                                           Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"
-                                                           FontSize="11"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
+                            </Border>
                         </DataTemplate>
-                    </ContentControl.ContentTemplate>
-                </ContentControl>
+                    </ListBox.ItemTemplate>
 
-                <StackPanel x:Name="WorkItemDetailsPlaceholder"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Spacing="8"
-                            IsVisible="{Binding SelectedWorkItem, Converter={StaticResource NullToBoolConverter.Inverted}}">
-                    <TextBlock Text="Select a work item to view details"
-                               FontSize="16"
-                               FontWeight="SemiBold"
-                               Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"
-                               HorizontalAlignment="Center"/>
-                    <TextBlock Text="Choose an item from the list to see its context."
-                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"
-                               HorizontalAlignment="Center"/>
-                </StackPanel>
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:selected Border">
+                            <Setter Property="Background" Value="{DynamicResource PulseTrack.Brush.ListSelected}"/>
+                        </Style>
+                    </ListBox.Styles>
+                </ListBox>
+
+                <Border Background="{DynamicResource PulseTrack.Brush.Overlay}"
+                        CornerRadius="10"
+                        IsHitTestVisible="False"
+                        IsVisible="{Binding IsLoading}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+                        <ProgressBar Width="160" IsIndeterminate="True"/>
+                        <TextBlock Text="Loading work items..."
+                                   Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="No work items match your filters."
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"
+                           IsHitTestVisible="False"
+                           IsVisible="{Binding HasNoVisibleItems}"/>
             </Grid>
-        </Border>
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>
 

@@ -15,6 +15,7 @@ public static class DependencyInjection
 
         services.AddSingleton<IWorkItemsDataProvider, InMemoryWorkItemsDataProvider>();
         services.AddSingleton<WorkItemsViewModel>();
+        services.AddSingleton<WorkItemDetailViewModel>();
         services.AddSingleton<INavigationSection, WorkItemsNavigationSection>();
         services.AddSingleton<MainWindowViewModel>();
 

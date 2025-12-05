@@ -12,6 +12,7 @@ public sealed partial class NavigationItemViewModel : ObservableObject
     public NavigationItemViewModel(INavigationSection section)
     {
         Section = section ?? throw new ArgumentNullException(nameof(section));
+        Section.ViewModelChanged += (_, _) => OnPropertyChanged(nameof(Content));
     }
 
     public INavigationSection Section { get; }

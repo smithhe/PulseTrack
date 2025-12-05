@@ -7,7 +7,7 @@
         Width="1440"
         Height="900"
         MinWidth="1280"
-        MinHeight="800"
+        MinHeight="900"
         d:DesignWidth="1440"
         d:DesignHeight="900"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel, IsDesignTimeCreatable=False}"
@@ -56,19 +56,13 @@
                         </Style>
                     </ListBox.Styles>
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate x:DataType="vm:NavigationItemViewModel">
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <TextBlock Text="{Binding IconGlyph}"
-                                           FontSize="16"
-                                               Foreground="{DynamicResource PulseTrack.Brush.IconMuted}"
-                                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"/>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:NavigationItemViewModel">
                                 <TextBlock Text="{Binding Title}"
                                            Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"
                                            FontSize="14"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
         </Border>

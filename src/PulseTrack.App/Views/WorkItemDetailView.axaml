@@ -1,0 +1,195 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:PulseTrack.Presentation.ViewModels.WorkItems"
+             mc:Ignorable="d"
+             x:Class="PulseTrack.App.Views.WorkItemDetailView"
+             x:DataType="vm:WorkItemDetailViewModel"
+             d:DataContext="{d:DesignInstance Type=vm:WorkItemDetailViewModel}">
+
+    <Border Background="{DynamicResource PulseTrack.Brush.Surface}"
+            CornerRadius="12"
+            Padding="24"
+            VerticalAlignment="Stretch">
+        <Grid RowDefinitions="Auto,*">
+            <Button Grid.Row="0"
+                    Content="← Back to backlog"
+                    HorizontalAlignment="Left"
+                    Command="{Binding BackCommand}"
+                    MinWidth="160"
+                    Margin="0 0 0 16"/>
+
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto">
+                <Border Background="{DynamicResource PulseTrack.Brush.SurfaceVariant}"
+                        CornerRadius="12"
+                        Padding="24">
+                    <Grid RowDefinitions="Auto,*">
+                        <StackPanel Grid.Row="0" Spacing="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding WorkItem.Title}"
+                                       FontSize="26"
+                                       FontWeight="SemiBold"
+                                       Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding WorkItem.Key}"
+                                       Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Right"/>
+                        </Grid>
+
+                        <ItemsControl ItemsSource="{Binding WorkItem.Tags}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource PulseTrack.Brush.TagBackground}"
+                                            CornerRadius="8"
+                                            Padding="10 4"
+                                            Margin="0 4 4 0">
+                                        <TextBlock Text="{Binding .}"
+                                                   Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"
+                                                   FontSize="12"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Grid ColumnDefinitions="*,260">
+                            <StackPanel Grid.Column="0" Spacing="12">
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Summary"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                                    <TextBlock Text="{Binding WorkItem.Summary, FallbackValue='No description provided.'}"
+                                               TextWrapping="Wrap"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1"
+                                        Spacing="16"
+                                        HorizontalAlignment="Stretch">
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Owner"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                                    <TextBlock Text="{Binding WorkItem.OwnerDisplayName, FallbackValue='Unassigned'}"
+                                               FontSize="15"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                                </StackPanel>
+
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Feature"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                                    <TextBlock Text="{Binding WorkItem.FeatureName, FallbackValue='Not linked'}"
+                                               FontSize="15"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                                </StackPanel>
+
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Project"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                                    <TextBlock Text="{Binding WorkItem.ProjectName}"
+                                               FontSize="15"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                                </StackPanel>
+
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Status"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                                    <TextBlock Text="{Binding WorkItem.StatusLabel}"
+                                               FontSize="15"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                                </StackPanel>
+
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Priority"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                                    <TextBlock Text="{Binding WorkItem.PriorityLabel}"
+                                               FontSize="15"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                                </StackPanel>
+
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Created"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                                    <TextBlock Text="{Binding WorkItem.CreatedAtUtc, StringFormat='{}{0:MMM dd, yyyy}'}"
+                                               FontSize="15"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                                </StackPanel>
+
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="Due"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"/>
+                                    <TextBlock Text="{Binding WorkItem.DueAtUtc, StringFormat='{}{0:MMM dd, yyyy}', FallbackValue='—'}"
+                                               FontSize="15"
+                                               Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                        </StackPanel>
+
+                        <Border Grid.Row="1"
+                                Background="{DynamicResource PulseTrack.Brush.Surface}"
+                                CornerRadius="12"
+                                Padding="20"
+                                Margin="0 12 0 0"
+                                VerticalAlignment="Bottom">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="Notes"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource PulseTrack.Brush.TextPrimary}"/>
+
+                                <ItemsControl ItemsSource="{Binding Notes}"
+                                              IsVisible="{Binding HasNotes}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Spacing="8"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{DynamicResource PulseTrack.Brush.SurfaceVariant}"
+                                                    CornerRadius="10"
+                                                    Padding="12">
+                                                <TextBlock Text="{Binding .}"
+                                                           Foreground="{DynamicResource PulseTrack.Brush.TextSecondary}"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <TextBlock Text="No notes yet. Notes will appear here once this feature is wired up."
+                                           Foreground="{DynamicResource PulseTrack.Brush.TextMuted}"
+                                           IsVisible="{Binding HasNoNotes}"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>
+
