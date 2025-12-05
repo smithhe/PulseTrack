@@ -15,6 +15,7 @@ internal static class WorkItemMappingExtensions
             entity.Id,
             entity.Title,
             entity.DescriptionMarkdown,
+            entity.Notes,
             entity.Status,
             entity.Priority,
             entity.ProjectId,

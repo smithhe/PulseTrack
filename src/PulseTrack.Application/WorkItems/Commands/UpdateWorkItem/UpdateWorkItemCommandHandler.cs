@@ -37,6 +37,11 @@ internal sealed class UpdateWorkItemCommandHandler : IRequestHandler<UpdateWorkI
             workItem.UpdateDescription(request.DescriptionMarkdown, now);
         }
 
+        if (request.Notes is not null)
+        {
+            workItem.UpdateNotes(request.Notes, now);
+        }
+
         if (request.FeatureId.HasValue)
         {
             workItem.AssignFeature(request.FeatureId, now);

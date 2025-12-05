@@ -8,6 +8,7 @@ public sealed record UpdateWorkItemRequest(
     Guid WorkItemId,
     string? Title,
     string? DescriptionMarkdown,
+    string? Notes,
     Guid? FeatureId,
     Guid? OwnerId,
     WorkItemPriority? Priority,

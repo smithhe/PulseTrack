@@ -8,6 +8,7 @@ public sealed record WorkItemDetails(
     Guid Id,
     string Title,
     string? DescriptionMarkdown,
+    string? Notes,
     WorkItemStatus Status,
     WorkItemPriority Priority,
     Guid ProjectId,

@@ -12,6 +12,7 @@ public sealed record CreateWorkItemRequest(
     Guid? FeatureId,
     Guid? OwnerId,
     string? DescriptionMarkdown,
+    string? Notes,
     decimal? EstimatePoints,
     DateTime? DueAtUtc,
     IReadOnlyCollection<string>? Tags);

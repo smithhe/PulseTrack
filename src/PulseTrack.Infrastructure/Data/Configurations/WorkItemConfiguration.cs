@@ -41,6 +41,9 @@ internal sealed class WorkItemConfiguration : IEntityTypeConfiguration<WorkItem>
         builder.Property(item => item.DescriptionMarkdown)
             .HasColumnType("nvarchar(max)");
 
+        builder.Property(item => item.Notes)
+            .HasColumnType("nvarchar(max)");
+
         builder.Property(item => item.Status)
             .HasConversion<int>()
             .IsRequired();

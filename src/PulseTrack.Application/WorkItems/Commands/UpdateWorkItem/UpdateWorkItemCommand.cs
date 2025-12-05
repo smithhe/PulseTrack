@@ -10,6 +10,7 @@ public sealed record UpdateWorkItemCommand(
     Guid WorkItemId,
     string? Title,
     string? DescriptionMarkdown,
+    string? Notes,
     Guid? FeatureId,
     Guid? OwnerId,
     WorkItemPriority? Priority,

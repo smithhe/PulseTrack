@@ -15,6 +15,7 @@ public sealed record CreateWorkItemCommand(
     Guid? FeatureId,
     Guid? OwnerId,
     string? DescriptionMarkdown,
+    string? Notes,
     decimal? EstimatePoints,
     DateTime? DueAtUtc,
     IReadOnlyCollection<string>? Tags) : IRequest<Response<WorkItemDetails>>;

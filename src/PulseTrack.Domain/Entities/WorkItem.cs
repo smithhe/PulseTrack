@@ -63,6 +63,11 @@ public sealed class WorkItem : AuditableEntity
     public string? DescriptionMarkdown { get; private set; }
 
     /// <summary>
+    /// Free-form notes for the work item.
+    /// </summary>
+    public string? Notes { get; private set; }
+
+    /// <summary>
     /// The current status of the work item.
     /// </summary>
     public WorkItemStatus Status { get; private set; }
@@ -111,6 +116,17 @@ public sealed class WorkItem : AuditableEntity
     public void UpdateDescription(string? markdown, DateTime changedAtUtc)
     {
         DescriptionMarkdown = string.IsNullOrWhiteSpace(markdown) ? null : markdown.Trim();
+        Touch(changedAtUtc);
+    }
+
+    /// <summary>
+    /// Updates the notes for the work item.
+    /// </summary>
+    /// <param name="notes">The note contents.</param>
+    /// <param name="changedAtUtc">The change timestamp.</param>
+    public void UpdateNotes(string? notes, DateTime changedAtUtc)
+    {
+        Notes = NormalizeNotes(notes);
         Touch(changedAtUtc);
     }
 
@@ -282,6 +298,23 @@ public sealed class WorkItem : AuditableEntity
         }
 
         return title;
+    }
+
+    private static string? NormalizeNotes(string? notes)
+    {
+        if (string.IsNullOrWhiteSpace(notes))
+        {
+            return null;
+        }
+
+        string trimmed = notes.Trim();
+
+        if (trimmed.Length > 4000)
+        {
+            throw new ArgumentOutOfRangeException(nameof(notes), trimmed, "Notes must be 4000 characters or fewer.");
+        }
+
+        return trimmed;
     }
 }
 

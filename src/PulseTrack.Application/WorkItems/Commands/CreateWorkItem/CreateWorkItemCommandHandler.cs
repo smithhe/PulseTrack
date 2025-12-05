@@ -43,6 +43,11 @@ internal sealed class CreateWorkItemCommandHandler : IRequestHandler<CreateWorkI
 
         workItem.UpdateDescription(request.DescriptionMarkdown, now);
 
+        if (request.Notes is not null)
+        {
+            workItem.UpdateNotes(request.Notes, now);
+        }
+
         if (request.EstimatePoints.HasValue)
         {
             workItem.SetEstimate(request.EstimatePoints, now);
